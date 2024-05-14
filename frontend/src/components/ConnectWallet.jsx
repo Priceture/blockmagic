@@ -1,27 +1,15 @@
-import "./App.css";
-import Router from "./routes/Router";
-// import AppContextProvider from "./context/AppContext";
-/// Try with Wallet Connect
 import { createWeb3Modal, defaultConfig } from "@web3modal/ethers/react";
 
 // 1. Get projectId
 const projectId = "9db5fedcd0785dec5947890dfd3bd53f";
 
 // 2. Set chains
-// const mainnet = {
-//   chainId: 1,
-//   name: "Ethereum",
-//   currency: "ETH",
-//   explorerUrl: "https://etherscan.io",
-//   rpcUrl: "https://cloudflare-eth.com",
-// };
-const sepolia = {
-  chainId: 11155111,
-  name: "Sepolia Testnet",
-  currency: "SepoliaETH",
-  explorerUrl: "https://sepolia.etherscan.io/",
-  rpcUrl:
-    "https://eth-sepolia.g.alchemy.com/v2/W1UaG3jPy8sk7e1fp39n05xNjzaW9eCQ",
+const mainnet = {
+  chainId: 1,
+  name: "Ethereum",
+  currency: "ETH",
+  explorerUrl: "https://etherscan.io",
+  rpcUrl: "https://cloudflare-eth.com",
 };
 
 // 3. Create a metadata object
@@ -36,6 +24,7 @@ const metadata = {
 const ethersConfig = defaultConfig({
   /*Required*/
   metadata,
+
   /*Optional*/
   enableEIP6963: true, // true by default
   enableInjected: true, // true by default
@@ -47,17 +36,11 @@ const ethersConfig = defaultConfig({
 // 5. Create a Web3Modal instance
 createWeb3Modal({
   ethersConfig,
-  chains: [sepolia],
+  chains: [mainnet],
   projectId,
   enableAnalytics: true, // Optional - defaults to your Cloud configuration
 });
 
-export default function App() {
-  return (
-    <div className="app">
-      {/* <AppContextProvider> */}
-      <Router />
-      {/* </AppContextProvider> */}
-    </div>
-  );
+export default function ConnectWallet() {
+  return <YourApp />;
 }
