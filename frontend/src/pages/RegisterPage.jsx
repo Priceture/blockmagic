@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 // import ConnectWallet from "../components/ConnectWallet";
 import { useWeb3ModalAccount } from "@web3modal/ethers/react";
 import SetPrice from "./SetPrice";
@@ -18,6 +18,7 @@ function GetWalletData() {
   );
 }
 function RegisterPage() {
+  const [pageCount, setPageCount] = useState(0);
   return (
     <div>
       <h1>Setup your wallet</h1>
