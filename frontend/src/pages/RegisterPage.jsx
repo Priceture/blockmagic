@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 // import ConnectWallet from "../components/ConnectWallet";
 import { useWeb3ModalAccount } from "@web3modal/ethers/react";
-import SetPrice from "./SetPrice";
+import SetPrice from "../components/SetPrice";
 import ImageUploadForm from "../components/ImageUploadForm";
-import GetWalletData from "./getWalletData";
+import GetWalletData from "../components/getWalletData";
 import MintNFT from "../components/MintNFT";
 
 function RegisterPage() {
