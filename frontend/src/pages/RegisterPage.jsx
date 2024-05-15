@@ -3,21 +3,9 @@ import React, { useState } from "react";
 import { useWeb3ModalAccount } from "@web3modal/ethers/react";
 import SetPrice from "./SetPrice";
 import ImageUploadForm from "../components/ImageUploadForm";
+import GetWalletData from "./getWalletData";
+import MintNFT from "../components/MintNFT";
 
-// Function to get wallet data from user
-// ถ้ารันรอบแรกจะยังไม่มีค่า ต้องให้ user login ก่อนถึงจะได้ค่ามา
-// ถ้ามีค่าแล้วให้ไปยัง step ถัดไป
-function GetWalletData() {
-  const { address, chainId, isConnected } = useWeb3ModalAccount();
-  console.log(
-    "user wallet address:",
-    address,
-    " chainID: ",
-    chainId,
-    "isConnected: ",
-    isConnected
-  );
-}
 function RegisterPage() {
   const [pageCount, setPageCount] = useState(0);
   return (
@@ -27,6 +15,7 @@ function RegisterPage() {
       <GetWalletData />
       <SetPrice />
       <ImageUploadForm />
+      <MintNFT />
     </div>
   );
 }

@@ -1,8 +1,9 @@
 import "./App.css";
 import Router from "./routes/Router";
-// import AppContextProvider from "./context/AppContext";
+
 /// Try with Wallet Connect
 import { createWeb3Modal, defaultConfig } from "@web3modal/ethers/react";
+import AppContextProvider from "./context/AppContext";
 
 // 1. Get projectId
 const projectId = "9db5fedcd0785dec5947890dfd3bd53f";
@@ -55,9 +56,9 @@ createWeb3Modal({
 export default function App() {
   return (
     <div className="app">
-      {/* <AppContextProvider> */}
-      <Router />
-      {/* </AppContextProvider> */}
+      <AppContextProvider>
+        <Router />
+      </AppContextProvider>
     </div>
   );
 }

@@ -1,13 +1,15 @@
 // import 'dotenv/config.js'
-import React, { useState } from "react"; // make sure to configure this
+import React, { useState, useContext } from "react"; // make sure to configure this
 import { getStorage, ref, uploadBytes } from "firebase/storage";
 import { initializeApp } from "firebase/app";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
+import { AppContext } from "../context/AppContext";
 
 function ImageUploadForm() {
   // setup stage for image upload
   const [image, setImage] = useState(null);
-  const [jsonUrl, setJsonUrl] = useState(null);
+  const { jsonUrl, setJsonUrl } = useContext(AppContext);
+  // const [jsonUrl, setJsonUrl] = useState(null);
   const [generateImageStatus, setGenerateImageStatus] = useState(null);
 
   // API token for Imagine API
@@ -41,7 +43,7 @@ function ImageUploadForm() {
     if (image) {
       // remove spaces from image name to prevent error in Midjourney API
       // const imageExtension = image.name.split('.').pop();
-      const imageNameWithOutSpace = image.name.replace(/\s/g, '')
+      const imageNameWithOutSpace = image.name.replace(/\s/g, "");
       const imageName = imageNameWithOutSpace;
 
       // specify the image reference on Firebase storage
@@ -162,7 +164,9 @@ function ImageUploadForm() {
               }
             } catch (error) {
               console.error("Error getting updates", error);
-              alert("There is an error in Discord or Midjourney API. Please try again later.");
+              alert(
+                "There is an error in Discord or Midjourney API. Please try again later."
+              );
               throw error;
             }
           }, 10000 /* every 10 seconds */);
@@ -179,7 +183,7 @@ function ImageUploadForm() {
         }
 
         // Add the uploaded image metadata at the middle of array
-        allMetadata.splice(2,0,{
+        allMetadata.splice(2, 0, {
           name: "Priceture NFT",
           description: "Your Price, Your Mood, Your NFT",
           image: `https://firebasestorage.googleapis.com/v0/b/priceture.appspot.com/o/images%2F${imageName}?alt=media`,
@@ -189,7 +193,7 @@ function ImageUploadForm() {
               value: "Normal",
             },
           ],
-        })
+        });
 
         if (allMetadata.length > 4) {
           const metadata = {
@@ -205,7 +209,9 @@ function ImageUploadForm() {
 
           try {
             await uploadBytes(jsonRef, blob);
-            setJsonUrl(`https://firebasestorage.googleapis.com/v0/b/priceture.appspot.com/o/json%2F${jsonFileName}?alt=media`)
+            setJsonUrl(
+              `https://firebasestorage.googleapis.com/v0/b/priceture.appspot.com/o/json%2F${jsonFileName}?alt=media`
+            );
             console.log(
               `Your JSON metada URL is : https://firebasestorage.googleapis.com/v0/b/priceture.appspot.com/o/json%2F${jsonFileName}?alt=media`
             );

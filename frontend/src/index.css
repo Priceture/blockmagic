@@ -37,3 +37,25 @@ code {
 .button {
   background-color: #f2cd5c;
 }
+
+.priceForm {
+  border: 1px white solid;
+  width: 600px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.pricePoint {
+  display: flex;
+  flex-direction: row;
+  padding: 24px;
+}
+
+/* .priceForm__calculatedprice {
+} */
+.priceForm_submitBtn {
+  background-color: #f2cd5c;
+  color: black;
+}
