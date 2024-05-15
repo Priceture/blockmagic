@@ -8,14 +8,7 @@ import AppContextProvider from "./context/AppContext";
 // 1. Get projectId
 const projectId = "9db5fedcd0785dec5947890dfd3bd53f";
 
-// 2. Set chains
-// const mainnet = {
-//   chainId: 1,
-//   name: "Ethereum",
-//   currency: "ETH",
-//   explorerUrl: "https://etherscan.io",
-//   rpcUrl: "https://cloudflare-eth.com",
-// };
+// 2. Set chain
 const sepolia = {
   chainId: 11155111,
   name: "Sepolia Testnet",

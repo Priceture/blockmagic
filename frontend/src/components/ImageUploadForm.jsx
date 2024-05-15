@@ -5,7 +5,7 @@ import { initializeApp } from "firebase/app";
 import { v4 as uuidv4 } from "uuid";
 import { AppContext } from "../context/AppContext";
 
-function ImageUploadForm() {
+function ImageUploadForm({ pageCount, setPageCount }) {
   // setup stage for image upload
   const [image, setImage] = useState(null);
   const { jsonUrl, setJsonUrl } = useContext(AppContext);
@@ -237,6 +237,12 @@ function ImageUploadForm() {
     }
   };
 
+  // Handle go to next page
+  const handleClick = () => {
+    setPageCount(pageCount + 1);
+    // if (generateImageStatus === "done") setPageCount(pageCount + 1);
+  };
+
   return (
     <div>
       <form onSubmit={handleUpload}>
@@ -249,6 +255,9 @@ function ImageUploadForm() {
             : "Upload Image"}
         </button>
       </form>
+      <button className="confirmBtn" onClick={handleClick}>
+        Next
+      </button>
     </div>
   );
 }

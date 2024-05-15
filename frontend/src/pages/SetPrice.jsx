@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-function SetPrice() {
+function SetPrice({ pageCount, setPageCount }) {
   //Set state for 4 price tiers
   const [priceHH, setPriceHH] = useState(0);
   const [priceH, setPriceH] = useState(0);
@@ -50,7 +50,7 @@ function SetPrice() {
     let priceArray = [];
     priceArray.push(btcPriceLL, btcPriceL, bitcoinPrice, btcPriceH, btcPriceHH);
     setPriceArr(() => priceArray);
-    console.log(priceArr);
+    setPageCount(pageCount + 1);
   };
   return (
     <div>
@@ -134,7 +134,7 @@ function SetPrice() {
             ={(bitcoinPrice * (100 - priceLL)) / 100} USD
           </span>
         </div>
-        <button className="priceForm_submitBtn" type="submit">
+        <button className="confirmBtn" type="submit">
           Confirm
         </button>
       </form>

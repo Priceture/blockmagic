@@ -34,8 +34,11 @@ code {
 .nav-menu {
   display: flex;
 }
-.button {
+.confirmBtn {
   background-color: #f2cd5c;
+  color: black;
+  padding: 8px 24px;
+  border-radius: 16px;
 }
 
 .priceForm {
@@ -58,4 +61,9 @@ code {
 .priceForm_submitBtn {
   background-color: #f2cd5c;
   color: black;
+}
+
+.final_image {
+  width: 400px;
+  aspect-ratio: 1/1;
 }

@@ -10,12 +10,15 @@ function RegisterPage() {
   const [pageCount, setPageCount] = useState(0);
   return (
     <div>
-      <h1>Setup your wallet</h1>
-      <w3m-button />
-      <GetWalletData />
-      <SetPrice />
-      <ImageUploadForm />
-      <MintNFT />
+      {pageCount === 0 ? (
+        <GetWalletData pageCount={pageCount} setPageCount={setPageCount} />
+      ) : pageCount === 1 ? (
+        <SetPrice pageCount={pageCount} setPageCount={setPageCount} />
+      ) : pageCount === 2 ? (
+        <ImageUploadForm pageCount={pageCount} setPageCount={setPageCount} />
+      ) : (
+        <MintNFT pageCount={pageCount} setPageCount={setPageCount} />
+      )}
     </div>
   );
 }
