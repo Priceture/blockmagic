@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 function ImageUploadForm() {
   // setup stage for image upload
   const [image, setImage] = useState(null);
+  const [jsonUrl, setJsonUrl] = useState(null);
   const [generateImageStatus, setGenerateImageStatus] = useState(null);
 
   // API token for Imagine API
@@ -39,8 +40,9 @@ function ImageUploadForm() {
     setGenerateImageStatus("process");
     if (image) {
       // remove spaces from image name to prevent error in Midjourney API
-      const imageExtension = image.name.split('.').pop();
-      const imageName = uuidv4() + '.' + imageExtension;
+      // const imageExtension = image.name.split('.').pop();
+      const imageNameWithOutSpace = image.name.replace(/\s/g, '')
+      const imageName = imageNameWithOutSpace;
 
       // specify the image reference on Firebase storage
       const imageRef = ref(storage, `images/${imageName}`);
@@ -57,16 +59,16 @@ function ImageUploadForm() {
       // Generate 4 images on imagine API based on the uploaded image URL
       const prompt = [
         {
-          prompt: `https://firebasestorage.googleapis.com/v0/b/priceture.appspot.com/o/images%2F${imageName}?alt=media enhance the expression of object or person to feel miserable and very sad while keeping the posture of character and background remains unchanged --w 0 --s 500`,
+          prompt: `https://firebasestorage.googleapis.com/v0/b/priceture.appspot.com/o/images%2F${imageName}?alt=media enhance the expression of object or person to feel miserable and very sad while keeping the posture of character and background remains unchanged --w 0 --s 500 --iw 3`,
         },
         {
-          prompt: `https://firebasestorage.googleapis.com/v0/b/priceture.appspot.com/o/images%2F${imageName}?alt=media enhance the expression of object or person to feel a bit sad while keeping the posture of character and background remains unchanged --w 0 --s 500`,
+          prompt: `https://firebasestorage.googleapis.com/v0/b/priceture.appspot.com/o/images%2F${imageName}?alt=media enhance the expression of object or person to feel a bit sad while keeping the posture of character and background remains unchanged --w 0 --s 500 --iw 3`,
         },
         {
-          prompt: `https://firebasestorage.googleapis.com/v0/b/priceture.appspot.com/o/images%2F${imageName}?alt=media enhance the expression of object or person to feel a bit happier while keeping the posture of character and background remains unchanged --w 0 --s 500`,
+          prompt: `https://firebasestorage.googleapis.com/v0/b/priceture.appspot.com/o/images%2F${imageName}?alt=media enhance the expression of object or person to feel a bit happier while keeping the posture of character and background remains unchanged --w 0 --s 500 --iw 3`,
         },
         {
-          prompt: `https://firebasestorage.googleapis.com/v0/b/priceture.appspot.com/o/images%2F${imageName}?alt=media enhance the expression of object or person to feel very happy and full of joy while keeping the posture of character and background remains unchanged --w 0 --s 500`,
+          prompt: `https://firebasestorage.googleapis.com/v0/b/priceture.appspot.com/o/images%2F${imageName}?alt=media enhance the expression of object or person to feel very happy and full of joy while keeping the posture of character and background remains unchanged --w 0 --s 500 --iw 3`,
         },
       ];
 
@@ -160,9 +162,10 @@ function ImageUploadForm() {
               }
             } catch (error) {
               console.error("Error getting updates", error);
+              alert("There is an error in Discord or Midjourney API. Please try again later.");
               throw error;
             }
-          }, 30000 /* every 3 seconds */);
+          }, 10000 /* every 10 seconds */);
         });
       }
 
@@ -175,7 +178,20 @@ function ImageUploadForm() {
           allMetadata.push(metadata);
         }
 
-        if (allMetadata.length > 3) {
+        // Add the uploaded image metadata at the middle of array
+        allMetadata.splice(2,0,{
+          name: "Priceture NFT",
+          description: "Your Price, Your Mood, Your NFT",
+          image: `https://firebasestorage.googleapis.com/v0/b/priceture.appspot.com/o/images%2F${imageName}?alt=media`,
+          attributes: [
+            {
+              trait_type: "Feeling",
+              value: "Normal",
+            },
+          ],
+        })
+
+        if (allMetadata.length > 4) {
           const metadata = {
             file: allMetadata,
           };
@@ -189,6 +205,7 @@ function ImageUploadForm() {
 
           try {
             await uploadBytes(jsonRef, blob);
+            setJsonUrl(`https://firebasestorage.googleapis.com/v0/b/priceture.appspot.com/o/json%2F${jsonFileName}?alt=media`)
             console.log(
               `Your JSON metada URL is : https://firebasestorage.googleapis.com/v0/b/priceture.appspot.com/o/json%2F${jsonFileName}?alt=media`
             );
@@ -203,6 +220,7 @@ function ImageUploadForm() {
       async function createMetaDataFunction() {
         await createMetaData();
         setGenerateImageStatus("done");
+        console.log("The JSON URL state is: ", jsonUrl);
         console.log("Generate Image Status: ", generateImageStatus);
       }
       createMetaDataFunction();
@@ -219,7 +237,7 @@ function ImageUploadForm() {
         <input type="file" onChange={handleChange} />
         <button type="submit" disabled={generateImageStatus === "process"}>
           {generateImageStatus === "process"
-            ? "Generating images... wait 3 minutes"
+            ? "Generating... wait a few mins"
             : generateImageStatus === "done"
             ? "Next"
             : "Upload Image"}
