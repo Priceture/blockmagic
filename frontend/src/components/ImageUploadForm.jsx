@@ -63,15 +63,15 @@ function ImageUploadForm({ pageCount, setPageCount }) {
         {
           prompt: `https://firebasestorage.googleapis.com/v0/b/priceture.appspot.com/o/images%2F${imageName}?alt=media enhance the expression of object or person to feel miserable and very sad while keeping the posture of character and background remains unchanged --w 0 --s 500 --iw 3`,
         },
-        {
-          prompt: `https://firebasestorage.googleapis.com/v0/b/priceture.appspot.com/o/images%2F${imageName}?alt=media enhance the expression of object or person to feel a bit sad while keeping the posture of character and background remains unchanged --w 0 --s 500 --iw 3`,
-        },
-        {
-          prompt: `https://firebasestorage.googleapis.com/v0/b/priceture.appspot.com/o/images%2F${imageName}?alt=media enhance the expression of object or person to feel a bit happier while keeping the posture of character and background remains unchanged --w 0 --s 500 --iw 3`,
-        },
-        {
-          prompt: `https://firebasestorage.googleapis.com/v0/b/priceture.appspot.com/o/images%2F${imageName}?alt=media enhance the expression of object or person to feel very happy and full of joy while keeping the posture of character and background remains unchanged --w 0 --s 500 --iw 3`,
-        },
+        // {
+        //   prompt: `https://firebasestorage.googleapis.com/v0/b/priceture.appspot.com/o/images%2F${imageName}?alt=media enhance the expression of object or person to feel a bit sad while keeping the posture of character and background remains unchanged --w 0 --s 500 --iw 3`,
+        // },
+        // {
+        //   prompt: `https://firebasestorage.googleapis.com/v0/b/priceture.appspot.com/o/images%2F${imageName}?alt=media enhance the expression of object or person to feel a bit happier while keeping the posture of character and background remains unchanged --w 0 --s 500 --iw 3`,
+        // },
+        // {
+        //   prompt: `https://firebasestorage.googleapis.com/v0/b/priceture.appspot.com/o/images%2F${imageName}?alt=media enhance the expression of object or person to feel very happy and full of joy while keeping the posture of character and background remains unchanged --w 0 --s 500 --iw 3`,
+        // },
       ];
 
       // we wrap it in a main function here so we can use async/await inside of it.
@@ -175,61 +175,65 @@ function ImageUploadForm({ pageCount, setPageCount }) {
 
       // create metadata JSON for NFT
       async function createMetaData() {
-        let allMetadata = [];
-        for (let i = 0; i < prompt.length; i++) {
-          let metadata = await generateImage(i);
-          console.log("the metadata for this image generation is: " + metadata);
-          allMetadata.push(metadata);
-        }
-
-        // Add the uploaded image metadata at the middle of array
-        allMetadata.splice(2, 0, {
-          name: "Priceture NFT",
-          description: "Your Price, Your Mood, Your NFT",
-          image: `https://firebasestorage.googleapis.com/v0/b/priceture.appspot.com/o/images%2F${imageName}?alt=media`,
-          attributes: [
-            {
-              trait_type: "Feeling",
-              value: "Normal",
-            },
-          ],
-        });
-
-        if (allMetadata.length > 4) {
-          const metadata = {
-            file: allMetadata,
-          };
-          const jsonString = JSON.stringify(metadata);
-          const blob = new Blob([jsonString], { type: "application/json" });
-          const imageNameWithOutExtension = imageName.split(".")[0];
-          const jsonFileName = imageNameWithOutExtension + ".json";
-
-          // to be updated the location path
-          const jsonRef = ref(storage, `json/${jsonFileName}`);
-
-          try {
-            await uploadBytes(jsonRef, blob);
-            setJsonUrl(
-              `https://firebasestorage.googleapis.com/v0/b/priceture.appspot.com/o/json%2F${jsonFileName}?alt=media`
-            );
+        return new Promise(async (resolve, reject) => {
+          let allMetadata = [];
+          for (let i = 0; i < prompt.length; i++) {
+            let metadata = await generateImage(i);
             console.log(
-              `Your JSON metada URL is : https://firebasestorage.googleapis.com/v0/b/priceture.appspot.com/o/json%2F${jsonFileName}?alt=media`
+              "the metadata for this image generation is: " + metadata
             );
-          } catch (error) {
-            console.error("Error uploading json: ", error);
+            allMetadata.push(metadata);
           }
-        } else {
-          console.log("Error in creating metadata.");
-        }
+
+          // Add the uploaded image metadata at the middle of array
+          allMetadata.splice(1, 0, {
+            name: "Priceture NFT",
+            description: "Your Price, Your Mood, Your NFT",
+            image: `https://firebasestorage.googleapis.com/v0/b/priceture.appspot.com/o/images%2F${imageName}?alt=media`,
+            attributes: [
+              {
+                trait_type: "Feeling",
+                value: "Normal",
+              },
+            ],
+          });
+
+          if (allMetadata.length > prompt.length) {
+            const metadata = {
+              file: allMetadata,
+            };
+            const jsonString = JSON.stringify(metadata);
+            const blob = new Blob([jsonString], { type: "application/json" });
+            const imageNameWithOutExtension = imageName.split(".")[0];
+            const jsonFileName = imageNameWithOutExtension + ".json";
+
+            // to be updated the location path
+            const jsonRef = ref(storage, `json/${jsonFileName}`);
+            const jsonUrl = `https://firebasestorage.googleapis.com/v0/b/priceture.appspot.com/o/json%2F${jsonFileName}?alt=media`;
+
+            try {
+              await uploadBytes(jsonRef, blob);
+              console.log(
+                `Your JSON metada URL is : https://firebasestorage.googleapis.com/v0/b/priceture.appspot.com/o/json%2F${jsonFileName}?alt=media`
+              );
+            } catch (error) {
+              console.error("Error uploading json: ", error);
+            }
+            resolve(jsonUrl);
+          } else {
+            console.log("Error in creating metadata.");
+          }
+        });
       }
 
       async function createMetaDataFunction() {
-        await createMetaData();
-        setGenerateImageStatus("done");
-        console.log("The JSON URL state is: ", jsonUrl);
-        console.log("Generate Image Status: ", generateImageStatus);
+        let jsonUrlReturn = await createMetaData();
+        setJsonUrl(() => jsonUrlReturn);
+        setGenerateImageStatus(() => "done");
       }
-      createMetaDataFunction();
+      await createMetaDataFunction();
+      console.log("The json state is: " + jsonUrl);
+      console.log("The image generation status is: " + generateImageStatus);
 
       // if users do not upload anything
     } else {

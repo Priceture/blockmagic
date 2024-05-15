@@ -46,16 +46,16 @@ function MintNFT() {
   return (
     <div>
       <div>Preview your NFT</div>
-      <div>
+      {/* <div>
         {mockjsonUrl.file.map((item) => (
           <img className="final_image" src={item.image} />
         ))}
-      </div>
-      {/* <div>
-        {jsonUrl.file.map((item) => (
+      </div> */}
+      <div>
+        {jsonUrl?.file.map((item) => (
           <img className="final_image" src={item.image} />
         ))}
-      </div> */}
+      </div>
     </div>
   );
 }

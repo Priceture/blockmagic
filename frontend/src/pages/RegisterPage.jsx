@@ -5,7 +5,9 @@ import SetPrice from "../components/SetPrice";
 import ImageUploadForm from "../components/ImageUploadForm";
 import GetWalletData from "../components/getWalletData";
 import MintNFT from "../components/MintNFT";
+import SelectAsset from "../components/SelectAsset";
 
+//Note: เอา pageCount ไปเซ็ตเป็น context สำหรับ register page ทีหลัง
 function RegisterPage() {
   const [pageCount, setPageCount] = useState(0);
   return (
@@ -13,8 +15,10 @@ function RegisterPage() {
       {pageCount === 0 ? (
         <GetWalletData pageCount={pageCount} setPageCount={setPageCount} />
       ) : pageCount === 1 ? (
-        <SetPrice pageCount={pageCount} setPageCount={setPageCount} />
+        <SelectAsset pageCount={pageCount} setPageCount={setPageCount} />
       ) : pageCount === 2 ? (
+        <SetPrice pageCount={pageCount} setPageCount={setPageCount} />
+      ) : pageCount === 3 ? (
         <ImageUploadForm pageCount={pageCount} setPageCount={setPageCount} />
       ) : (
         <MintNFT pageCount={pageCount} setPageCount={setPageCount} />
