@@ -5,11 +5,11 @@ export const AppContext = createContext();
 
 export default function AppContextProvider({ children }) {
   //Manage 5 NFT images from server
-  const [jsonUrl, setJsonUrl] = useState(null);
+  const [metadataInContext, setMetadataInContext] = useState(null);
   const count = 1;
 
   return (
-    <AppContext.Provider value={{ count, jsonUrl, setJsonUrl }}>
+    <AppContext.Provider value={{ count, metadataInContext, setMetadataInContext }}>
       {children}
     </AppContext.Provider>
   );

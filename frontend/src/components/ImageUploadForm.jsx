@@ -8,8 +8,7 @@ import { AppContext } from "../context/AppContext";
 function ImageUploadForm({ pageCount, setPageCount }) {
   // setup stage for image upload
   const [image, setImage] = useState(null);
-  const { jsonUrl, setJsonUrl } = useContext(AppContext);
-  // const [jsonUrl, setJsonUrl] = useState(null);
+  const { metadataInContext, setMetadataInContext } = useContext(AppContext);
   const [generateImageStatus, setGenerateImageStatus] = useState(null);
 
   // API token for Imagine API
@@ -42,7 +41,6 @@ function ImageUploadForm({ pageCount, setPageCount }) {
     setGenerateImageStatus("process");
     if (image) {
       // remove spaces from image name to prevent error in Midjourney API
-      // const imageExtension = image.name.split('.').pop();
       const imageNameWithOutSpace = image.name.replace(/\s/g, "");
       const imageName = imageNameWithOutSpace;
 
@@ -63,15 +61,15 @@ function ImageUploadForm({ pageCount, setPageCount }) {
         {
           prompt: `https://firebasestorage.googleapis.com/v0/b/priceture.appspot.com/o/images%2F${imageName}?alt=media enhance the expression of object or person to feel miserable and very sad while keeping the posture of character and background remains unchanged --w 0 --s 500 --iw 3`,
         },
-        // {
-        //   prompt: `https://firebasestorage.googleapis.com/v0/b/priceture.appspot.com/o/images%2F${imageName}?alt=media enhance the expression of object or person to feel a bit sad while keeping the posture of character and background remains unchanged --w 0 --s 500 --iw 3`,
-        // },
-        // {
-        //   prompt: `https://firebasestorage.googleapis.com/v0/b/priceture.appspot.com/o/images%2F${imageName}?alt=media enhance the expression of object or person to feel a bit happier while keeping the posture of character and background remains unchanged --w 0 --s 500 --iw 3`,
-        // },
-        // {
-        //   prompt: `https://firebasestorage.googleapis.com/v0/b/priceture.appspot.com/o/images%2F${imageName}?alt=media enhance the expression of object or person to feel very happy and full of joy while keeping the posture of character and background remains unchanged --w 0 --s 500 --iw 3`,
-        // },
+        {
+          prompt: `https://firebasestorage.googleapis.com/v0/b/priceture.appspot.com/o/images%2F${imageName}?alt=media enhance the expression of object or person to feel a bit sad while keeping the posture of character and background remains unchanged --w 0 --s 500 --iw 3`,
+        },
+        {
+          prompt: `https://firebasestorage.googleapis.com/v0/b/priceture.appspot.com/o/images%2F${imageName}?alt=media enhance the expression of object or person to feel a bit happier while keeping the posture of character and background remains unchanged --w 0 --s 500 --iw 3`,
+        },
+        {
+          prompt: `https://firebasestorage.googleapis.com/v0/b/priceture.appspot.com/o/images%2F${imageName}?alt=media enhance the expression of object or person to feel very happy and full of joy while keeping the posture of character and background remains unchanged --w 0 --s 500 --iw 3`,
+        },
       ];
 
       // we wrap it in a main function here so we can use async/await inside of it.
@@ -186,7 +184,7 @@ function ImageUploadForm({ pageCount, setPageCount }) {
           }
 
           // Add the uploaded image metadata at the middle of array
-          allMetadata.splice(1, 0, {
+          allMetadata.splice(2, 0, {
             name: "Priceture NFT",
             description: "Your Price, Your Mood, Your NFT",
             image: `https://firebasestorage.googleapis.com/v0/b/priceture.appspot.com/o/images%2F${imageName}?alt=media`,
@@ -209,17 +207,15 @@ function ImageUploadForm({ pageCount, setPageCount }) {
 
             // to be updated the location path
             const jsonRef = ref(storage, `json/${jsonFileName}`);
-            const jsonUrl = `https://firebasestorage.googleapis.com/v0/b/priceture.appspot.com/o/json%2F${jsonFileName}?alt=media`;
+            // const jsonUrlInGeneration = `https://firebasestorage.googleapis.com/v0/b/priceture.appspot.com/o/json%2F${jsonFileName}?alt=media`;
 
             try {
               await uploadBytes(jsonRef, blob);
-              console.log(
-                `Your JSON metada URL is : https://firebasestorage.googleapis.com/v0/b/priceture.appspot.com/o/json%2F${jsonFileName}?alt=media`
-              );
+              console.log("Your JSON metada is : " + metadata)
             } catch (error) {
               console.error("Error uploading json: ", error);
             }
-            resolve(jsonUrl);
+            resolve(metadata);
           } else {
             console.log("Error in creating metadata.");
           }
@@ -227,13 +223,12 @@ function ImageUploadForm({ pageCount, setPageCount }) {
       }
 
       async function createMetaDataFunction() {
-        let jsonUrlReturn = await createMetaData();
-        setJsonUrl(() => jsonUrlReturn);
+        let metadataReturn = await createMetaData();
+        console.log("the metadataReturn is: " + metadataReturn)
+        setMetadataInContext(() => metadataReturn);
         setGenerateImageStatus(() => "done");
       }
       await createMetaDataFunction();
-      console.log("The json state is: " + jsonUrl);
-      console.log("The image generation status is: " + generateImageStatus);
 
       // if users do not upload anything
     } else {
@@ -244,7 +239,6 @@ function ImageUploadForm({ pageCount, setPageCount }) {
   // Handle go to next page
   const handleClick = () => {
     setPageCount(pageCount + 1);
-    // if (generateImageStatus === "done") setPageCount(pageCount + 1);
   };
 
   return (

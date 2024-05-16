@@ -1,27 +1,32 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/utils/Strings.sol";
 import {AggregatorV3Interface} from "@chainlink/contracts/src/v0.8/shared/interfaces/AggregatorV3Interface.sol";
+import "@chainlink/contracts/src/v0.8/KeeperCompatible.sol";
 
-contract PriceTureNFT is ERC721URIStorage {
-    AggregatorV3Interface internal priceFeed;
+contract PriceTureNFT is ERC721, ERC721Enumerable, ERC721URIStorage, KeeperCompatibleInterface, Ownable {
+    AggregatorV3Interface public priceFeed;
     mapping(uint256 => uint256) private _tokenPriceTiers;
     uint256[] _priceTiersThresholds;
-
-
     uint256 private _nextTokenId;
-    
 
+    uint public /* immutable */ interval; 
+    uint public lastTimeStamp;
+    int256 public currentPrice;
+    
     // TODO turn this into function that receive argument as a JSON files and return the string
     // Metadata JSON for URI each stage of the NFT.
-    string[] _tokenURIs = [
-        "https://firebasestorage.googleapis.com/v0/b/priceture.appspot.com/o/0.json?alt=media&token=c30a17d6-31b2-4a16-8370-aa3bdcb03ff4",
-        "https://firebasestorage.googleapis.com/v0/b/priceture.appspot.com/o/1.json?alt=media&token=dda15231-09f2-43da-91c1-3a2b697eb423",
-        "https://firebasestorage.googleapis.com/v0/b/priceture.appspot.com/o/2.json?alt=media&token=bac78e83-505c-421c-af5a-bb0c91d24fbe",
-        "https://firebasestorage.googleapis.com/v0/b/priceture.appspot.com/o/3.json?alt=media&token=6f459e5e-8c2d-4775-be19-18115288298b",
-        "https://firebasestorage.googleapis.com/v0/b/priceture.appspot.com/o/4.json?alt=media&token=2e2b7980-7325-491a-b3b7-9d89cf48e2cb"
-    ];
+    // string[] _tokenURIs = [
+    //     "https://firebasestorage.googleapis.com/v0/b/priceture.appspot.com/o/0.json?alt=media&token=c30a17d6-31b2-4a16-8370-aa3bdcb03ff4",
+    //     "https://firebasestorage.googleapis.com/v0/b/priceture.appspot.com/o/1.json?alt=media&token=dda15231-09f2-43da-91c1-3a2b697eb423",
+    //     "https://firebasestorage.googleapis.com/v0/b/priceture.appspot.com/o/2.json?alt=media&token=bac78e83-505c-421c-af5a-bb0c91d24fbe",
+    //     "https://firebasestorage.googleapis.com/v0/b/priceture.appspot.com/o/3.json?alt=media&token=6f459e5e-8c2d-4775-be19-18115288298b",
+    //     "https://firebasestorage.googleapis.com/v0/b/priceture.appspot.com/o/4.json?alt=media&token=2e2b7980-7325-491a-b3b7-9d89cf48e2cb"
+    // ];
 
     // Helper function to get the latest price from Chainlink
      function getChainlinkDataFeedLatestAnswer() public view returns (int) {
@@ -34,24 +39,30 @@ contract PriceTureNFT is ERC721URIStorage {
         return price;
     }
 
-    constructor() ERC721("Priceture", "PRCTURE") {
+    function setPriceTiersThresholds(uint256[] memory priceTiers) public returns (uint256[] memory) {
+        _priceTiersThresholds = priceTiers;
+        return _priceTiersThresholds;
+    }
 
-        // TODO turn this into function that receive arguments as latest pirce and price tiers thresholds to return the array of uint256
-         // address of chainlink price on BTC/USD on Sepolia
-        priceFeed = AggregatorV3Interface(0x1b44F3514812d835EB1BDB0acB33d3fA3351Ee43);
-        int256 latestPrice = getChainlinkDataFeedLatestAnswer();
-        _priceTiersThresholds.push(uint256(latestPrice * 98/100));
-        _priceTiersThresholds.push(uint256(latestPrice * 99/100));
-        _priceTiersThresholds.push(uint256(latestPrice));
-        _priceTiersThresholds.push(uint256(latestPrice * 101/100));
-        _priceTiersThresholds.push(uint256(latestPrice * 102/100));
+    constructor(uint updateInterval, address _pricefeed) ERC721("Priceture", "PRCTURE") {
+         // Set the keeper update interval
+        interval = updateInterval; 
+        lastTimeStamp = block.timestamp;  //  seconds since unix epoch
+        priceFeed = AggregatorV3Interface(_pricefeed);
+        currentPrice = getChainlinkDataFeedLatestAnswer();
+
     }
 
     // function to mint to the wallet owner
     function safeMint(
-        address to
+        address to,
+        string memory jsonUrl,
+        uint256[] memory priceTiers
     ) public returns (uint256) {
         uint256 tokenId = _nextTokenId++;
+
+        string[] memory _tokenURI = jsonUrl.file;
+        setPriceTiersThresholds(priceTiers);
         _safeMint(to, tokenId);
         _setTokenURI(tokenId, _tokenURIs[2]);
         return tokenId;
@@ -77,26 +88,51 @@ contract PriceTureNFT is ERC721URIStorage {
         return 0;
     }
 
-    // TODO performUpkeep function everyday to update the token URI based on the current price tier
-
-    function checkUpkeep(
-        bytes calldata /* checkData */
-    )
-        external
-        view
-        returns (bool upkeepNeeded, bytes memory /* performData */)
-    {
-        upkeepNeeded = (block.timestamp - lastTimeStamp) > interval;
-        // We don't use the checkData in this example. The checkData is defined when the Upkeep was registered.
+    function checkUpkeep(bytes calldata /* checkData */) external view override returns (bool upkeepNeeded, bytes memory /*performData */) {
+         upkeepNeeded = (block.timestamp - lastTimeStamp) > interval;
     }
 
-    function performUpkeep(bytes calldata /* performData */) external {
+    function performUpkeep(bytes calldata /* performData */ ) external override {
         //We highly recommend revalidating the upkeep in the performUpkeep function
-        if ((block.timestamp - lastTimeStamp) > interval) {
-            lastTimeStamp = block.timestamp;
-            mildBirthday(0);
-        }
-        // We don't use the performData in this example. The performData is generated by the Keeper's call to your checkUpkeep function
+        if ((block.timestamp - lastTimeStamp) > interval ) {
+            lastTimeStamp = block.timestamp;         
+            int latestPrice =  getChainlinkDataFeedLatestAnswer(); 
+            updateTokenURI(_nextTokenId);
+
+
+    // The following functions are overrides required by Solidity.
+    function _beforeTokenTransfer(
+        address from,
+        address to,
+        uint256 tokenId
+    ) internal override(ERC721, ERC721Enumerable) {
+        super._beforeTokenTransfer(from, to, tokenId);
+    }
+
+    // The following functions are overrides required by Solidity.
+    function _burn(uint256 tokenId)
+        internal
+        override(ERC721, ERC721URIStorage)
+    {
+        super._burn(tokenId);
+    }
+
+    function tokenURI(uint256 tokenId)
+        public
+        view
+        override(ERC721, ERC721URIStorage)
+        returns (string memory)
+    {
+        return super.tokenURI(tokenId);
+    }
+
+    function supportsInterface(bytes4 interfaceId)
+        public
+        view
+        override(ERC721, ERC721Enumerable)
+        returns (bool)
+    {
+        return super.supportsInterface(interfaceId);
     }
 }
 
