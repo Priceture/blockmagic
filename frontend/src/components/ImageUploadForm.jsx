@@ -9,6 +9,7 @@ function ImageUploadForm({ pageCount, setPageCount }) {
   // setup stage for image upload
   const [image, setImage] = useState(null);
   const { metadataInContext, setMetadataInContext } = useContext(AppContext);
+  const { priceArr, setPriceArr } = useContext(AppContext);
   const [generateImageStatus, setGenerateImageStatus] = useState(null);
 
   // API token for Imagine API
@@ -211,7 +212,7 @@ function ImageUploadForm({ pageCount, setPageCount }) {
 
             try {
               await uploadBytes(jsonRef, blob);
-              console.log("Your JSON metada is : " + metadata)
+              console.log("Your JSON metada is : " + metadata);
             } catch (error) {
               console.error("Error uploading json: ", error);
             }
@@ -224,7 +225,7 @@ function ImageUploadForm({ pageCount, setPageCount }) {
 
       async function createMetaDataFunction() {
         let metadataReturn = await createMetaData();
-        console.log("the metadataReturn is: " + metadataReturn)
+        console.log("the metadataReturn is: " + metadataReturn);
         setMetadataInContext(() => metadataReturn);
         setGenerateImageStatus(() => "done");
       }
@@ -243,6 +244,11 @@ function ImageUploadForm({ pageCount, setPageCount }) {
 
   return (
     <div>
+      <div>
+        {priceArr.map((price) => (
+          <li>{price}</li>
+        ))}
+      </div>
       <form onSubmit={handleUpload}>
         <input type="file" onChange={handleChange} />
         <button type="submit" disabled={generateImageStatus === "process"}>

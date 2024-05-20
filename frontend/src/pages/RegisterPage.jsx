@@ -6,6 +6,7 @@ import ImageUploadForm from "../components/ImageUploadForm";
 import GetWalletData from "../components/getWalletData";
 import MintNFT from "../components/MintNFT";
 import SelectAsset from "../components/SelectAsset";
+import MintSuccess from "../components/MintSuccess";
 
 //Note: เอา pageCount ไปเซ็ตเป็น context สำหรับ register page ทีหลัง
 function RegisterPage() {
@@ -20,9 +21,11 @@ function RegisterPage() {
         <SetPrice pageCount={pageCount} setPageCount={setPageCount} />
       ) : pageCount === 3 ? (
         <ImageUploadForm pageCount={pageCount} setPageCount={setPageCount} />
-      ) : (
+      ) : pageCount === 4 ? (
         <MintNFT pageCount={pageCount} setPageCount={setPageCount} />
-      )}
+      ) : pageCount === 5 ? (
+        <MintSuccess pageCount={pageCount} setPageCount={setPageCount} />
+      ) : null}
     </div>
   );
 }

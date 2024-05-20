@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
+import { AppContext } from "../context/AppContext";
 
 function SetPrice({ pageCount, setPageCount }) {
   //Set state for 4 price tiers
@@ -7,8 +8,9 @@ function SetPrice({ pageCount, setPageCount }) {
   const [priceH, setPriceH] = useState(0);
   const [priceL, setPriceL] = useState(0);
   const [priceLL, setPriceLL] = useState(0);
-  const [priceArr, setPriceArr] = useState([0, 0, 0, 0, 0]);
+  // const [priceArr, setPriceArr] = useState([0, 0, 0, 0, 0]);
   const [bitcoinPrice, setBitcoinPrice] = useState(0);
+  const { priceArr, setPriceArr } = useContext(AppContext);
 
   // Get price from coinGecko
   const getPrice = async () => {
@@ -43,12 +45,19 @@ function SetPrice({ pageCount, setPageCount }) {
   };
   const handleSubmitForm = (event) => {
     event.preventDefault();
-    let btcPriceHH = bitcoinPrice * (1 + priceHH / 100);
-    let btcPriceH = bitcoinPrice * (1 + priceH / 100);
-    let btcPriceL = bitcoinPrice * (1 - priceL / 100);
-    let btcPriceLL = bitcoinPrice * (1 - priceLL / 100);
+    let btcPriceHH = bitcoinPrice * (1 + priceHH / 100) * 10 ** 8;
+    let btcPriceH = bitcoinPrice * (1 + priceH / 100) * 10 ** 8;
+    let btcPriceCurrent = bitcoinPrice * 10 ** 8;
+    let btcPriceL = bitcoinPrice * (1 - priceL / 100) * 10 ** 8;
+    let btcPriceLL = bitcoinPrice * (1 - priceLL / 100) * 10 ** 8;
     let priceArray = [];
-    priceArray.push(btcPriceLL, btcPriceL, bitcoinPrice, btcPriceH, btcPriceHH);
+    priceArray.push(
+      btcPriceLL,
+      btcPriceL,
+      btcPriceCurrent,
+      btcPriceH,
+      btcPriceHH
+    );
     setPriceArr(() => priceArray);
     setPageCount(pageCount + 1);
   };
