@@ -11,7 +11,7 @@ import ProgressBar from "../components/ProgressBar";
 
 //Note: เอา pageCount ไปเซ็ตเป็น context สำหรับ register page ทีหลัง
 function RegisterPage() {
-  const [pageCount, setPageCount] = useState(1);
+  const [pageCount, setPageCount] = useState(0);
   return (
     <div>
       <ProgressBar pageCount={pageCount} setPageCount={setPageCount} />
