@@ -241,14 +241,8 @@ function ImageUploadForm({ pageCount, setPageCount }) {
   const handleClick = () => {
     setPageCount(pageCount + 1);
   };
-
   return (
     <div>
-      <div>
-        {priceArr.map((price) => (
-          <li>{price}</li>
-        ))}
-      </div>
       <form onSubmit={handleUpload}>
         <input type="file" onChange={handleChange} />
         <button type="submit" disabled={generateImageStatus === "process"}>
