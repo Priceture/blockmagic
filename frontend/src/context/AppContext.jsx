@@ -6,6 +6,7 @@ export const AppContext = createContext();
 export default function AppContextProvider({ children }) {
   //Manage 5 NFT images from server
   const [metadataInContext, setMetadataInContext] = useState(null);
+  const [selectedAsset, setSelectedAsset] = useState("");
   const [priceArr, setPriceArr] = useState([0, 0, 0, 0, 0]);
   const [tokenId, setTokenId] = useState("");
   const count = 1;
@@ -20,6 +21,8 @@ export default function AppContextProvider({ children }) {
         setPriceArr,
         tokenId,
         setTokenId,
+        selectedAsset,
+        setSelectedAsset,
       }}
     >
       {children}

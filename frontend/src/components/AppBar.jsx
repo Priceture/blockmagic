@@ -27,10 +27,10 @@ export default function AppBar() {
       <MuiAppBar position="static" sx={{ backgroundColor: "#400e32" }}>
         <Toolbar
           display="flex"
-          alignItems="center"
+          alignitems="center"
           sx={{ justifyContent: "space-between" }}
         >
-          <Box component="div" display="flex" alignItems="center" gap="16px">
+          <Box component="div" display="flex" alignitems="center" gap="16px">
             <img src={pricturelogo}></img>
             <Typography
               variant="h5"

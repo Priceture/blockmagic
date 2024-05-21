@@ -10,7 +10,7 @@ import MintSuccess from "../components/MintSuccess";
 
 //Note: เอา pageCount ไปเซ็ตเป็น context สำหรับ register page ทีหลัง
 function RegisterPage() {
-  const [pageCount, setPageCount] = useState(0);
+  const [pageCount, setPageCount] = useState(1);
   return (
     <div>
       {pageCount === 0 ? (

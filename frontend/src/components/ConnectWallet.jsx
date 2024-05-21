@@ -4,6 +4,7 @@ import { createWeb3Modal, defaultConfig } from "@web3modal/ethers/react";
 const projectId = "9db5fedcd0785dec5947890dfd3bd53f";
 
 // 2. Set chains
+// แก้เป็น Sepolia ทีหลัง
 const mainnet = {
   chainId: 1,
   name: "Ethereum",

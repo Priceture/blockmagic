@@ -10,15 +10,22 @@ function SetPrice({ pageCount, setPageCount }) {
   const [priceLL, setPriceLL] = useState(0);
   // const [priceArr, setPriceArr] = useState([0, 0, 0, 0, 0]);
   const [bitcoinPrice, setBitcoinPrice] = useState(0);
-  const { priceArr, setPriceArr } = useContext(AppContext);
+  const { priceArr, setPriceArr, selectedAsset, setSelectedAsset } =
+    useContext(AppContext);
 
   // Get price from coinGecko
   const getPrice = async () => {
     const apiKey = "CG-jg1Lr9hXN99m9hkFgQosKGnT";
-    const url = `https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd&x_cg_demo_api_key=${apiKey}`;
+    //Bitcoin price:
+    // const url = `https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd&x_cg_demo_api_key=${apiKey}`;
+    //Eth price:
+    // const url = `https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd&x_cg_demo_api_key=${apiKey}`;
+    // configure url by selected asset
+    const url = `https://api.coingecko.com/api/v3/simple/price?ids=${selectedAsset}&vs_currencies=usd&x_cg_demo_api_key=${apiKey}`;
     try {
       const response = await axios.get(url);
-      const btcPriceInUSD = await response.data.bitcoin.usd;
+      // const btcPriceInUSD = await response.data.bitcoin.usd;
+      const btcPriceInUSD = await response.data[selectedAsset].usd;
       console.log("bitcoin price is:", btcPriceInUSD);
       setBitcoinPrice(btcPriceInUSD);
       // return btcPriceInUSD;
@@ -65,9 +72,10 @@ function SetPrice({ pageCount, setPageCount }) {
     <div>
       <div>
         <div>Asset Name</div>
-        <div>{`BITCOIN: (BTC)`}</div>
+        {/* <div>{`BITCOIN: (BTC)`}</div> */}
+        {selectedAsset}
       </div>
-      <div>{`Current bitcoin price is ${bitcoinPrice} USD`}</div>
+      <div>{`Current ${selectedAsset} price is ${bitcoinPrice} USD`}</div>
       <div>Setup Four Price Tiers That Will Trigger NFT To Change Mood</div>
       <form className="priceForm" onSubmit={handleSubmitForm}>
         <div className="pricePoint">
