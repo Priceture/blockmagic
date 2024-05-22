@@ -4,13 +4,13 @@ import { AppContext } from "../context/AppContext";
 // get tokenId from mintNFT function
 export default function MintSuccess() {
   const { tokenId, setTokenId } = useContext(AppContext);
-  const contractAddress = `0xcaA4F1dcC16fb15307C8d3A30DdBf9d5E1123C0d`;
+  const contractAddress = `0x250f36675270D24E00d090712Cd8825A447bBD8C`;
   const handleRedirectToOpensea = (event) => {
     /// ตัว test
     window.location.href =
-      "https://opensea.io/assets/ethereum/0xf488a1ac7aadd80755ae4f081a67e1e85820a8c3/1334";
+    "https://testnet.rarible.com/token/0x250f36675270D24E00d090712Cd8825A447bBD8C:2"
     /// ของจริง
-    // window.location.href = `https://testnets.opensea.io/assets/sepolia/${contractAddress}/${tokenId}`;
+    // window.location.href = `https://testnet.rarible.com/token/${contractAddress}:${tokenId}`;
   };
   const handleRedirectToTokenframe = () => {
     window.location.href = "https://tokenframe.com/";
