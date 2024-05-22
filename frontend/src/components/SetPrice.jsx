@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { AppContext } from "../context/AppContext";
+import { Button } from "@mui/material";
 
 function SetPrice({ pageCount, setPageCount }) {
   //Set state for 4 price tiers
@@ -70,91 +71,133 @@ function SetPrice({ pageCount, setPageCount }) {
   };
   return (
     <div>
-      <div>
-        <div>Asset Name</div>
-        {/* <div>{`BITCOIN: (BTC)`}</div> */}
-        {selectedAsset}
+      <div className="mainContent__header">
+        <div className="mainContent__header-stepname">
+          Step 4: Set Conditions
+        </div>
+        <div className="mainContent__header-explain">
+          NFT will change their image and metadata based on the trigger points
+          below
+        </div>
       </div>
-      <div>{`Current ${selectedAsset} price is ${bitcoinPrice} USD`}</div>
-      <div>Setup Four Price Tiers That Will Trigger NFT To Change Mood</div>
-      <form className="priceForm" onSubmit={handleSubmitForm}>
-        <div className="pricePoint">
-          <span>Higher Price - Tier 1</span>
-          <span>+</span>
-          <input
-            className="priceForm__input"
-            type="text"
-            placeholder="Enter price here"
-            value={priceHH}
-            onChange={handleChangePriceHH}
-            style={{ color: "black" }}
-          ></input>
-          <span>%</span>
-          <span className="priceForm__calculatedprice">
+      <div className="mainContent__setPrice">
+        <div className="">
+          <div className="mainContent_body-title">Your Selected Assets</div>
+          <div>Price is from Coinmarketcap. Last update xxx </div>
+        </div>
+        <div className="mainContent_setPrice-container">
+          <div className="setPrice__subcontainer">
+            <div className="setPrice__subcontainer-item">Asset Name</div>
+            <div className="setPrice__subcontainer-item">{selectedAsset}</div>
+          </div>
+          <div className="setPrice__subcontainer">
+            <div className="setPrice__subcontainer-item">
+              Current Asset Price
+            </div>
+            <div className="setPrice__subcontainer-item">{bitcoinPrice}</div>
+            <div className="setPrice__subcontainer-item"> USD </div>
+          </div>
+        </div>
+        <div className="mainContent_body-title">
+          Setup Four Price Tiers That Will Trigger NFT To Change Mood
+        </div>
+        <div className="mainContent_setPrice-container">
+          <div className="setPrice__subcontainer">
+            <span className="setPrice__subcontainer-item">
+              Higher Price - Tier 1
+            </span>
+            <span className="setPrice__subcontainer-item-sm">+</span>
+            <input
+              className="setPrice__subcontainer-item"
+              type="text"
+              placeholder="Enter price here"
+              value={priceHH}
+              onChange={handleChangePriceHH}
+              style={{ color: "black" }}
+            ></input>
+            <span className="setPrice__subcontainer-item-sm">%</span>
+            <div className="setPrice__subcontainer-sub">
+              <span className="setPrice__subcontainer-item-sm">=</span>
+              <span className="setPrice__subcontainer-item">
+                {bitcoinPrice * (1 + priceHH / 100)}
+              </span>
+              <span className="setPrice__subcontainer-item-sm">USD</span>
+            </div>
+          </div>
+          <div className="setPrice__subcontainer">
+            <span>Higher Price - Tier 2</span>
+            <span>+</span>
+            <input
+              className="priceForm__input"
+              type="text"
+              placeholder="Enter price here"
+              value={priceH}
+              onChange={handleChangePriceH}
+              style={{ color: "black" }}
+            ></input>
+            <span>%</span>
+            <span className="priceForm__calculatedprice">
+              ={bitcoinPrice * (1 + priceH / 100)} USD
+            </span>
+          </div>
+          <div className="setPrice__subcontainer">
+            <span>Current Price</span>
+            <span>+</span>
+            <div className="priceForm__input">0</div>
+            <span className="priceForm__calculatedprice">
+              % ={bitcoinPrice} USD
+            </span>
+          </div>
+          <div className="setPrice__subcontainer">
+            <span>Lower Price - Tier 1</span>
+            <span>-</span>
+            <input
+              className="priceForm__input"
+              type="text"
+              placeholder="Enter price here"
+              value={priceL}
+              onChange={handleChangePriceL}
+              style={{ color: "black" }}
+            ></input>
+            <span className="priceForm__calculatedprice">
+              {" "}
+              ={(bitcoinPrice * (100 - priceL)) / 100} USD
+            </span>
+          </div>
+          <div className="setPrice__subcontainer">
+            <span>Lower Price - Tier 2</span>
+            <span>-</span>
+            <input
+              className="priceForm__input"
+              type="text"
+              placeholder="Enter price here"
+              value={priceLL}
+              onChange={handleChangePriceLL}
+              style={{ color: "black" }}
+            ></input>
+            <span className="priceForm__calculatedprice">
+              {" "}
+              ={(bitcoinPrice * (100 - priceLL)) / 100} USD
+            </span>
+          </div>
+        </div>
+        <div className="mainContent__footer">
+          <Button
+            onClick={handleSubmitForm}
+            color="inherit"
+            className="button"
+            sx={{
+              color: "#400e32",
+              backgroundColor: "#F2cd5C",
+              width: "200px",
+              height: "48px",
+            }}
+          >
             {" "}
-            ={bitcoinPrice * (1 + priceHH / 100)} USD
-          </span>
+            Confirm
+          </Button>
         </div>
-        <div className="pricePoint">
-          <span>Higher Price - Tier 2</span>
-          <span>+</span>
-          <input
-            className="priceForm__input"
-            type="text"
-            placeholder="Enter price here"
-            value={priceH}
-            onChange={handleChangePriceH}
-            style={{ color: "black" }}
-          ></input>
-          <span>%</span>
-          <span className="priceForm__calculatedprice">
-            ={bitcoinPrice * (1 + priceH / 100)} USD
-          </span>
-        </div>
-        <div className="pricePoint">
-          <span>Current Price</span>
-          <span>+</span>
-          <div className="priceForm__input">0</div>
-          <span className="priceForm__calculatedprice">
-            % ={bitcoinPrice} USD
-          </span>
-        </div>
-        <div className="pricePoint">
-          <span>Lower Price - Tier 1</span>
-          <span>-</span>
-          <input
-            className="priceForm__input"
-            type="text"
-            placeholder="Enter price here"
-            value={priceL}
-            onChange={handleChangePriceL}
-            style={{ color: "black" }}
-          ></input>
-          <span className="priceForm__calculatedprice">
-            {" "}
-            ={(bitcoinPrice * (100 - priceL)) / 100} USD
-          </span>
-        </div>
-        <div className="pricePoint">
-          <span>Lower Price - Tier 2</span>
-          <span>-</span>
-          <input
-            className="priceForm__input"
-            type="text"
-            placeholder="Enter price here"
-            value={priceLL}
-            onChange={handleChangePriceLL}
-            style={{ color: "black" }}
-          ></input>
-          <span className="priceForm__calculatedprice">
-            {" "}
-            ={(bitcoinPrice * (100 - priceLL)) / 100} USD
-          </span>
-        </div>
-        <button className="confirmBtn" type="submit">
-          Confirm
-        </button>
-      </form>
+      </div>
     </div>
   );
 }

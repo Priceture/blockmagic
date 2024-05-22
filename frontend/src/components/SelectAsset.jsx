@@ -20,22 +20,29 @@ function SelectAsset({ pageCount, setPageCount }) {
     return assetList.map((asset, index) => (
       <button
         key={index}
-        className="confirmBtn"
+        className="mainContent__body-asset"
         type="submit"
         value={asset.name}
         onClick={handleSelectAsset}
       >
-        <p>{asset.symbol}</p>
         <img className="assetLogo" src={asset.logo}></img>
+        <p>{`${asset.name} (${asset.symbol})`} </p>
       </button>
     ));
   }
   return (
     <div>
-      <h1>Select Asset</h1>
-      <form>
-        <Asset assetList={assetList} />
-      </form>
+      <div className="mainContent__header">
+        <div className="mainContent__header-stepname">Step 3: Select Asset</div>
+        <div className="mainContent__header-explain">
+          Choose your favorite asset to track to price. <br /> You can select
+          only 1 asset at at time.
+        </div>
+      </div>
+      <div className="mainContent__body">
+        <Asset className="mainContent__body-assetList" assetList={assetList} />
+      </div>
+      <div className="mainContent__footer"></div>
     </div>
   );
 }

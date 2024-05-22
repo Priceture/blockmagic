@@ -13,9 +13,15 @@ import ProgressBar from "../components/ProgressBar";
 function RegisterPage() {
   const [pageCount, setPageCount] = useState(0);
   return (
-    <div>
-      <ProgressBar pageCount={pageCount} setPageCount={setPageCount} />
-      <div>
+    <div className="registerpage">
+      <div className="progressBar">
+        <ProgressBar
+          // sx={(border = "1")}
+          pageCount={pageCount}
+          setPageCount={setPageCount}
+        />
+      </div>
+      <div className="mainContent">
         {pageCount === 0 ? (
           <GetWalletData pageCount={pageCount} setPageCount={setPageCount} />
         ) : pageCount === 1 ? (

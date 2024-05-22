@@ -239,23 +239,53 @@ function ImageUploadForm({ pageCount, setPageCount }) {
 
   // Handle go to next page
   const handleClick = () => {
-    setPageCount(pageCount + 1);
+    if (setGenerateImageStatus === "done") setPageCount(pageCount + 1);
+    // else return;
+    else setPageCount(pageCount + 1);
   };
   return (
     <div>
-      <form onSubmit={handleUpload}>
-        <input type="file" onChange={handleChange} />
-        <button type="submit" disabled={generateImageStatus === "process"}>
-          {generateImageStatus === "process"
-            ? "Generating... wait a few mins"
-            : generateImageStatus === "done"
-            ? "Next"
-            : "Upload Image"}
+      <div className="mainContent__header">
+        <div className="mainContent__header-stepname">Step 2: Upload Image</div>
+        <div className="mainContent__header-explain">
+          Upload any image of your favorite. This image will be turned into an
+          NFT.
+          <br /> Your image must be square with image size of less than 1 MB
+        </div>
+      </div>
+      <div className="mainContent__body">
+        <form
+          className="mainContent__body-imageUploadForm"
+          onSubmit={handleUpload}
+        >
+          <input
+            type="file"
+            className="mainContent__body-uploadFile"
+            onChange={handleChange}
+          />
+          <button
+            className="actionBtn"
+            type="submit"
+            disabled={generateImageStatus === "process"}
+          >
+            {generateImageStatus === "process"
+              ? "Generating... wait a few mins"
+              : generateImageStatus === "done"
+              ? "Next"
+              : "Upload Image"}
+          </button>
+        </form>
+      </div>
+      <div className="mainContent__footer">
+        <button
+          className={
+            generateImageStatus === "done" ? "confirmBtn" : "confirmBtn-ghost"
+          }
+          onClick={handleClick}
+        >
+          Next
         </button>
-      </form>
-      <button className="confirmBtn" onClick={handleClick}>
-        Next
-      </button>
+      </div>
     </div>
   );
 }

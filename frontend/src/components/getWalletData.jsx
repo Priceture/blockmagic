@@ -22,14 +22,28 @@ export default function GetWalletData({ pageCount, setPageCount }) {
     } else setPageCount(pageCount + 1);
   };
   return (
-    <div className="walletConnect">
-      <h1>Connect Your Wallet</h1>
-      <w3m-button />
-      {walletError ? <div>Connect wallet first!</div> : null}
+    <div>
+      <div className="mainContent__header">
+        <div className="mainContent__header-stepname">
+          Step 1: Connect Wallet
+        </div>
+        <div className="mainContent__header-explain">
+          Connect Your Wallet with Wallet Connect. You will receive the dynamic
+          NFT in this wallet
+        </div>
+      </div>
+      <div className="mainContent__body">
+        <div className="mainContent__body-connectwallet">
+          <w3m-button />
+        </div>
 
-      <button className="confirmBtn" onClick={handleClick}>
-        Next
-      </button>
+        {walletError ? <div>Connect wallet first!</div> : null}
+      </div>
+      <div className="mainContent__footer">
+        <button className="confirmBtn" onClick={handleClick}>
+          Next
+        </button>
+      </div>
     </div>
   );
 }
