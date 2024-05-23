@@ -9,16 +9,7 @@ import { Button } from "@mui/material";
 
 function MintNFT({ pageCount, setPageCount }) {
   const { metadataInContext, setMetadataInContext } = useContext(AppContext);
-  const {
-    priceArr,
-    setPriceArr,
-    tokenId,
-    setTokenId,
-    selectedAsset,
-    setSelectedAsset,
-  } = useContext(AppContext);
-  const { ipfsUrls, setIpfsUrls } = useContext(AppContext);
-
+  const { priceArr, setPriceArr, tokenId, setTokenId } = useContext(AppContext);
   const [walletDetails, setWalletDetails] = useState(null);
   const [walletError, setWalletError] = useState(false);
   // อัพเดทค่าเมื่อ connect wallet แล้ว
@@ -30,18 +21,128 @@ function MintNFT({ pageCount, setPageCount }) {
     {
       inputs: [
         {
+          internalType: "address",
+          name: "to",
+          type: "address",
+        },
+        {
           internalType: "uint256",
-          name: "updateInterval",
+          name: "tokenId",
+          type: "uint256",
+        },
+      ],
+      name: "approve",
+      outputs: [],
+      stateMutability: "nonpayable",
+      type: "function",
+    },
+    {
+      inputs: [],
+      stateMutability: "nonpayable",
+      type: "constructor",
+    },
+    {
+      inputs: [
+        {
+          internalType: "address",
+          name: "sender",
+          type: "address",
+        },
+        {
+          internalType: "uint256",
+          name: "tokenId",
           type: "uint256",
         },
         {
           internalType: "address",
-          name: "_priceFeed",
+          name: "owner",
           type: "address",
         },
       ],
-      stateMutability: "nonpayable",
-      type: "constructor",
+      name: "ERC721IncorrectOwner",
+      type: "error",
+    },
+    {
+      inputs: [
+        {
+          internalType: "address",
+          name: "operator",
+          type: "address",
+        },
+        {
+          internalType: "uint256",
+          name: "tokenId",
+          type: "uint256",
+        },
+      ],
+      name: "ERC721InsufficientApproval",
+      type: "error",
+    },
+    {
+      inputs: [
+        {
+          internalType: "address",
+          name: "approver",
+          type: "address",
+        },
+      ],
+      name: "ERC721InvalidApprover",
+      type: "error",
+    },
+    {
+      inputs: [
+        {
+          internalType: "address",
+          name: "operator",
+          type: "address",
+        },
+      ],
+      name: "ERC721InvalidOperator",
+      type: "error",
+    },
+    {
+      inputs: [
+        {
+          internalType: "address",
+          name: "owner",
+          type: "address",
+        },
+      ],
+      name: "ERC721InvalidOwner",
+      type: "error",
+    },
+    {
+      inputs: [
+        {
+          internalType: "address",
+          name: "receiver",
+          type: "address",
+        },
+      ],
+      name: "ERC721InvalidReceiver",
+      type: "error",
+    },
+    {
+      inputs: [
+        {
+          internalType: "address",
+          name: "sender",
+          type: "address",
+        },
+      ],
+      name: "ERC721InvalidSender",
+      type: "error",
+    },
+    {
+      inputs: [
+        {
+          internalType: "uint256",
+          name: "tokenId",
+          type: "uint256",
+        },
+      ],
+      name: "ERC721NonexistentToken",
+      type: "error",
     },
     {
       anonymous: false,
@@ -94,98 +195,6 @@ function MintNFT({ pageCount, setPageCount }) {
       type: "event",
     },
     {
-      anonymous: false,
-      inputs: [
-        {
-          indexed: true,
-          internalType: "address",
-          name: "previousOwner",
-          type: "address",
-        },
-        {
-          indexed: true,
-          internalType: "address",
-          name: "newOwner",
-          type: "address",
-        },
-      ],
-      name: "OwnershipTransferred",
-      type: "event",
-    },
-    {
-      anonymous: false,
-      inputs: [
-        {
-          indexed: true,
-          internalType: "address",
-          name: "from",
-          type: "address",
-        },
-        {
-          indexed: true,
-          internalType: "address",
-          name: "to",
-          type: "address",
-        },
-        {
-          indexed: true,
-          internalType: "uint256",
-          name: "tokenId",
-          type: "uint256",
-        },
-      ],
-      name: "Transfer",
-      type: "event",
-    },
-    {
-      inputs: [
-        {
-          internalType: "uint256",
-          name: "",
-          type: "uint256",
-        },
-        {
-          internalType: "uint256",
-          name: "",
-          type: "uint256",
-        },
-      ],
-      name: "_metadata",
-      outputs: [
-        {
-          internalType: "string",
-          name: "",
-          type: "string",
-        },
-      ],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [
-        {
-          internalType: "uint256",
-          name: "",
-          type: "uint256",
-        },
-        {
-          internalType: "uint256",
-          name: "",
-          type: "uint256",
-        },
-      ],
-      name: "_priceTiersThresholds",
-      outputs: [
-        {
-          internalType: "uint256",
-          name: "",
-          type: "uint256",
-        },
-      ],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
       inputs: [
         {
           internalType: "address",
@@ -196,245 +205,10 @@ function MintNFT({ pageCount, setPageCount }) {
           internalType: "uint256",
           name: "tokenId",
           type: "uint256",
-        },
-      ],
-      name: "approve",
-      outputs: [],
-      stateMutability: "nonpayable",
-      type: "function",
-    },
-    {
-      inputs: [
-        {
-          internalType: "address",
-          name: "owner",
-          type: "address",
-        },
-      ],
-      name: "balanceOf",
-      outputs: [
-        {
-          internalType: "uint256",
-          name: "",
-          type: "uint256",
-        },
-      ],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [],
-      name: "currentPrice",
-      outputs: [
-        {
-          internalType: "int256",
-          name: "",
-          type: "int256",
-        },
-      ],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [
-        {
-          internalType: "int256",
-          name: "latestPrice",
-          type: "int256",
-        },
-        {
-          internalType: "uint256",
-          name: "tokenId",
-          type: "uint256",
-        },
-      ],
-      name: "determinePriceTier",
-      outputs: [
-        {
-          internalType: "uint256",
-          name: "",
-          type: "uint256",
-        },
-      ],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [
-        {
-          internalType: "uint256",
-          name: "tokenId",
-          type: "uint256",
-        },
-      ],
-      name: "getApproved",
-      outputs: [
-        {
-          internalType: "address",
-          name: "",
-          type: "address",
-        },
-      ],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [],
-      name: "getChainlinkDataFeedLatestAnswer",
-      outputs: [
-        {
-          internalType: "int256",
-          name: "",
-          type: "int256",
-        },
-      ],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [],
-      name: "interval",
-      outputs: [
-        {
-          internalType: "uint256",
-          name: "",
-          type: "uint256",
-        },
-      ],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [
-        {
-          internalType: "address",
-          name: "owner",
-          type: "address",
-        },
-      ],
-      name: "getApproved",
-      outputs: [
-        {
-          internalType: "address",
-          name: "operator",
-          type: "address",
-        },
-      ],
-      name: "isApprovedForAll",
-      outputs: [
-        {
-          internalType: "bool",
-          name: "",
-          type: "bool",
-        },
-      ],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [],
-      name: "lastTimeStamp",
-      outputs: [
-        {
-          internalType: "uint256",
-          name: "",
-          type: "uint256",
-        },
-      ],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [],
-      name: "name",
-      outputs: [
-        {
-          internalType: "string",
-          name: "",
-          type: "string",
-        },
-      ],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [],
-      name: "owner",
-      outputs: [
-        {
-          internalType: "address",
-          name: "",
-          type: "address",
-        },
-      ],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [
-        {
-          internalType: "uint256",
-          name: "tokenId",
-          type: "uint256",
-        },
-      ],
-      name: "ownerOf",
-      outputs: [
-        {
-          internalType: "address",
-          name: "",
-          type: "address",
-        },
-      ],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [],
-      name: "priceFeed",
-      outputs: [
-        {
-          internalType: "contract AggregatorV3Interface",
-          name: "",
-          type: "address",
-        },
-      ],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [],
-      name: "renounceOwnership",
-      outputs: [],
-      stateMutability: "nonpayable",
-      type: "function",
-    },
-    {
-      inputs: [
-        {
-          internalType: "address",
-          name: "to",
-          type: "address",
-        },
-        {
-          internalType: "uint256[]",
-          name: "priceTiers",
-          type: "uint256[]",
-        },
-        {
-          internalType: "string[]",
-          name: "metadataJson",
-          type: "string[]",
         },
       ],
       name: "safeMint",
-      outputs: [
-        {
-          internalType: "uint256",
-          name: "",
-          type: "uint256",
-        },
-      ],
+      outputs: [],
       stateMutability: "nonpayable",
       type: "function",
     },
@@ -480,7 +254,7 @@ function MintNFT({ pageCount, setPageCount }) {
         },
         {
           internalType: "bytes",
-          name: "_data",
+          name: "data",
           type: "bytes",
         },
       ],
@@ -508,14 +282,49 @@ function MintNFT({ pageCount, setPageCount }) {
       type: "function",
     },
     {
+      anonymous: false,
       inputs: [
         {
+          indexed: true,
+          internalType: "address",
+          name: "from",
+          type: "address",
+        },
+        {
+          indexed: true,
+          internalType: "address",
+          name: "to",
+          type: "address",
+        },
+        {
+          indexed: true,
           internalType: "uint256",
-          name: "newInterval",
+          name: "tokenId",
           type: "uint256",
         },
       ],
-      name: "setInterval",
+      name: "Transfer",
+      type: "event",
+    },
+    {
+      inputs: [
+        {
+          internalType: "address",
+          name: "from",
+          type: "address",
+        },
+        {
+          internalType: "address",
+          name: "to",
+          type: "address",
+        },
+        {
+          internalType: "uint256",
+          name: "tokenId",
+          type: "uint256",
+        },
+      ],
+      name: "transferFrom",
       outputs: [],
       stateMutability: "nonpayable",
       type: "function",
@@ -524,13 +333,94 @@ function MintNFT({ pageCount, setPageCount }) {
       inputs: [
         {
           internalType: "address",
-          name: "newFeed",
+          name: "owner",
           type: "address",
         },
       ],
-      name: "setPriceFeed",
-      outputs: [],
-      stateMutability: "nonpayable",
+      name: "balanceOf",
+      outputs: [
+        {
+          internalType: "uint256",
+          name: "",
+          type: "uint256",
+        },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [
+        {
+          internalType: "uint256",
+          name: "tokenId",
+          type: "uint256",
+        },
+      ],
+      name: "getApproved",
+      outputs: [
+        {
+          internalType: "address",
+          name: "",
+          type: "address",
+        },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [
+        {
+          internalType: "address",
+          name: "owner",
+          type: "address",
+        },
+        {
+          internalType: "address",
+          name: "operator",
+          type: "address",
+        },
+      ],
+      name: "isApprovedForAll",
+      outputs: [
+        {
+          internalType: "bool",
+          name: "",
+          type: "bool",
+        },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [],
+      name: "name",
+      outputs: [
+        {
+          internalType: "string",
+          name: "",
+          type: "string",
+        },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [
+        {
+          internalType: "uint256",
+          name: "tokenId",
+          type: "uint256",
+        },
+      ],
+      name: "ownerOf",
+      outputs: [
+        {
+          internalType: "address",
+          name: "",
+          type: "address",
+        },
+      ],
+      stateMutability: "view",
       type: "function",
     },
     {
@@ -584,64 +474,10 @@ function MintNFT({ pageCount, setPageCount }) {
       stateMutability: "view",
       type: "function",
     },
-    {
-      inputs: [
-        {
-          internalType: "address",
-          name: "from",
-          type: "address",
-        },
-        {
-          internalType: "address",
-          name: "to",
-          type: "address",
-        },
-        {
-          internalType: "uint256",
-          name: "tokenId",
-          type: "uint256",
-        },
-      ],
-      name: "transferFrom",
-      outputs: [],
-      stateMutability: "nonpayable",
-      type: "function",
-    },
-    {
-      inputs: [
-        {
-          internalType: "address",
-          name: "newOwner",
-          type: "address",
-        },
-      ],
-      name: "transferOwnership",
-      outputs: [],
-      stateMutability: "nonpayable",
-      type: "function",
-    },
-    {
-      inputs: [],
-      name: "updateTokenURI",
-      outputs: [],
-      stateMutability: "nonpayable",
-      type: "function",
-    },
   ];
 
   // to be updated mint NFT Contract address
-  const MintNFTContractAddress = "0x81F572ffb8a05082D36321f6C7226f9DbE491E87";
-
-  let priceFeedAddress = "";
-  if (selectedAsset === "bitcoin") {
-    priceFeedAddress = "0xe7656e23fE8077D438aEfbec2fAbDf2D8e070C4f";
-  }
-  if (selectedAsset === "ethereum") {
-    priceFeedAddress = "0xF0d50568e3A7e8259E16663972b11910F89BD8e7";
-  }
-  if (selectedAsset === "chainlink") {
-    priceFeedAddress = "0xc2e2848e28B9fE430Ab44F55a8437a33802a219C";
-  }
+  const MintNFTContractAddress = "0x250f36675270D24E00d090712Cd8825A447bBD8C";
 
   const metadata = {
     file: [
@@ -682,25 +518,21 @@ function MintNFT({ pageCount, setPageCount }) {
       },
     ],
   };
-  // setMetadataInContext(metadata);
+  useEffect(() => {
+    setMetadataInContext(metadata);
+  }, []);
   const handleMintNFT = async () => {
     // call function to mint NFT - SON DO THIS
     // await >> Should return token ID
     // setTokenId() เอาค่า tokenID มา setTokenID
     console.log("this is the address", address);
-    console.log("this is price array", priceArr);
-    console.log("this is ipfs urls", ipfsUrls);
+
     const ethersProvider = new BrowserProvider(walletProvider);
     const signer = await ethersProvider.getSigner();
     const NFTContract = new Contract(MintNFTContractAddress, Abi, signer);
 
     // have to update the arguments in safeMint to be address, JSON.stringify(metadata), pricetiers in array
-    const mintNFT = await NFTContract.safeMint(
-      address,
-      priceArr,
-      ipfsUrls,
-      priceFeedAddress
-    );
+    const mintNFT = await NFTContract.safeMint(address, 3);
 
     // move page to success page
     setPageCount(pageCount + 1);
