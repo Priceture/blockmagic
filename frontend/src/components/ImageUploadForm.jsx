@@ -11,13 +11,14 @@ function ImageUploadForm({ pageCount, setPageCount }) {
   const { metadataInContext, setMetadataInContext } = useContext(AppContext);
   const { priceArr, setPriceArr } = useContext(AppContext);
   const [generateImageStatus, setGenerateImageStatus] = useState(null);
-  const {ipfsUrls, setIpfsUrls} = useContext(AppContext);
+  const { ipfsUrls, setIpfsUrls } = useContext(AppContext);
 
   // API token for Imagine API
   const imagine_api_token = "sbac0GOtT6UoDni3tGQMT3K_FxeSsqIn";
 
   // Pintata API
-  const pintata_jwt = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiJiMTFjMjFlZC0wMzEzLTRlNzQtYjJhZi0xMTYxNmZhNDY2MDYiLCJlbWFpbCI6InNpdHRoYXZlZS50QGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJwaW5fcG9saWN5Ijp7InJlZ2lvbnMiOlt7ImlkIjoiRlJBMSIsImRlc2lyZWRSZXBsaWNhdGlvbkNvdW50IjoxfV0sInZlcnNpb24iOjF9LCJtZmFfZW5hYmxlZCI6ZmFsc2UsInN0YXR1cyI6IkFDVElWRSJ9LCJhdXRoZW50aWNhdGlvblR5cGUiOiJzY29wZWRLZXkiLCJzY29wZWRLZXlLZXkiOiJlNmFkNGQwMGMzMTY4MGJiZDI5YSIsInNjb3BlZEtleVNlY3JldCI6IjU1MjFlYmRmYjUzN2YwOTZkMGIyODhlMWJjNzcxM2JjZTg3YzM0YTUyMTBjODQ2MzJkOTJjNjhmZjFhOTM1NmQiLCJpYXQiOjE3MTY0NDk0OTR9.cpJvmgqwiD22ebRn38yKYrkrih-1Y_WJXMR2xJRrKTw";
+  const pintata_jwt =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiJiMTFjMjFlZC0wMzEzLTRlNzQtYjJhZi0xMTYxNmZhNDY2MDYiLCJlbWFpbCI6InNpdHRoYXZlZS50QGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJwaW5fcG9saWN5Ijp7InJlZ2lvbnMiOlt7ImlkIjoiRlJBMSIsImRlc2lyZWRSZXBsaWNhdGlvbkNvdW50IjoxfV0sInZlcnNpb24iOjF9LCJtZmFfZW5hYmxlZCI6ZmFsc2UsInN0YXR1cyI6IkFDVElWRSJ9LCJhdXRoZW50aWNhdGlvblR5cGUiOiJzY29wZWRLZXkiLCJzY29wZWRLZXlLZXkiOiJlNmFkNGQwMGMzMTY4MGJiZDI5YSIsInNjb3BlZEtleVNlY3JldCI6IjU1MjFlYmRmYjUzN2YwOTZkMGIyODhlMWJjNzcxM2JjZTg3YzM0YTUyMTBjODQ2MzJkOTJjNjhmZjFhOTM1NmQiLCJpYXQiOjE3MTY0NDk0OTR9.cpJvmgqwiD22ebRn38yKYrkrih-1Y_WJXMR2xJRrKTw";
 
   // Firebase configuration and initialization
   const firebaseConfig = {
@@ -182,7 +183,7 @@ function ImageUploadForm({ pageCount, setPageCount }) {
           let allMetadata = [];
           for (let i = 0; i < prompt.length; i++) {
             // let metadata = await generateImage(i);
-            let metadata = {name: `nft ${i}`}
+            let metadata = { name: `nft ${i}` };
             console.log(
               "the metadata for this image generation is: " + metadata
             );
@@ -209,9 +210,15 @@ function ImageUploadForm({ pageCount, setPageCount }) {
             console.log("Your JSON metada is : " + metadata);
 
             // const jsonString = JSON.stringify(metadata);
-            const jsonStringArr = [JSON.stringify(allMetadata[0]), JSON.stringify(allMetadata[1]), JSON.stringify(allMetadata[2]), JSON.stringify(allMetadata[3]), JSON.stringify(allMetadata[4])];
-            console.log("jsonStringArr is: ", jsonStringArr)
-       
+            const jsonStringArr = [
+              JSON.stringify(allMetadata[0]),
+              JSON.stringify(allMetadata[1]),
+              JSON.stringify(allMetadata[2]),
+              JSON.stringify(allMetadata[3]),
+              JSON.stringify(allMetadata[4]),
+            ];
+            console.log("jsonStringArr is: ", jsonStringArr);
+
             try {
               // upload metadata JSON to IPFS via Pinata
               let allIpfsUrl = [];
@@ -228,17 +235,18 @@ function ImageUploadForm({ pageCount, setPageCount }) {
                   }
                 );
                 const resData = await res.json();
-                allIpfsUrl.push("https://aqua-mobile-bandicoot-440.mypinata.cloud/ipfs/" + resData.IpfsHash);
+                allIpfsUrl.push(
+                  "https://aqua-mobile-bandicoot-440.mypinata.cloud/ipfs/" +
+                    resData.IpfsHash
+                );
               }
 
               // add IPFS link to the state
               if (allIpfsUrl.length === jsonStringArr.length) {
-
                 console.log("allIpfsUrl is: ", allIpfsUrl);
 
                 setIpfsUrls(allIpfsUrl);
               }
-  
             } catch (error) {
               console.error("Error uploading json: ", error);
             }

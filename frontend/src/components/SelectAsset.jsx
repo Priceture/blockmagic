@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { AppContext } from "../context/AppContext";
 import bitcoinlogo from "../assets/bitcoin.svg";
 import ethereumlogo from "../assets/ethereum.svg";
+import chainlinklogo from "../assets/chainlink.svg";
 
 function SelectAsset({ pageCount, setPageCount }) {
   const { selectedAsset, setSelectedAsset } = useContext(AppContext);
@@ -9,9 +10,11 @@ function SelectAsset({ pageCount, setPageCount }) {
   const assetList = [
     { name: "bitcoin", symbol: "BTC", logo: bitcoinlogo },
     { name: "ethereum", symbol: "ETH", logo: ethereumlogo },
+    { name: "chainlink", symbol: "LINK", logo: chainlinklogo },
   ];
   const handleSelectAsset = (event) => {
     // ดึงค่า asset ที่เค้าเลือก
+    console.log(event);
     console.log(event.target.value);
     setSelectedAsset(event.target.value);
     setPageCount(pageCount + 1);

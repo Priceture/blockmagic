@@ -21,6 +21,8 @@ function SetPrice({ pageCount, setPageCount }) {
     // const url = `https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd&x_cg_demo_api_key=${apiKey}`;
     //Eth price:
     // const url = `https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd&x_cg_demo_api_key=${apiKey}`;
+    //Chainlink price
+    // ("https://api.coingecko.com/api/v3/simple/price?ids=chainlink&vs_currencies=usd");
     // configure url by selected asset
     const url = `https://api.coingecko.com/api/v3/simple/price?ids=${selectedAsset}&vs_currencies=usd&x_cg_demo_api_key=${apiKey}`;
     try {
@@ -53,11 +55,11 @@ function SetPrice({ pageCount, setPageCount }) {
   };
   const handleSubmitForm = (event) => {
     event.preventDefault();
-    let btcPriceHH = bitcoinPrice * (1 + priceHH / 100) * 10 ** 8;
-    let btcPriceH = bitcoinPrice * (1 + priceH / 100) * 10 ** 8;
-    let btcPriceCurrent = bitcoinPrice * 10 ** 8;
-    let btcPriceL = bitcoinPrice * (1 - priceL / 100) * 10 ** 8;
-    let btcPriceLL = bitcoinPrice * (1 - priceLL / 100) * 10 ** 8;
+    let btcPriceHH = Math.trunc(bitcoinPrice * (1 + priceHH / 100) * 10 ** 8);
+    let btcPriceH = Math.trunc(bitcoinPrice * (1 + priceH / 100) * 10 ** 8);
+    let btcPriceCurrent = Math.trunc(bitcoinPrice * 10 ** 8);
+    let btcPriceL = Math.trunc(bitcoinPrice * (1 - priceL / 100) * 10 ** 8);
+    let btcPriceLL = Math.trunc(bitcoinPrice * (1 - priceLL / 100) * 10 ** 8);
     let priceArray = [];
     priceArray.push(
       btcPriceLL,

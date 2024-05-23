@@ -34,11 +34,6 @@ function MintNFT({ pageCount, setPageCount }) {
           name: "updateInterval",
           type: "uint256",
         },
-        {
-          internalType: "address",
-          name: "_priceFeed",
-          type: "address",
-        },
       ],
       stateMutability: "nonpayable",
       type: "constructor",
@@ -223,19 +218,6 @@ function MintNFT({ pageCount, setPageCount }) {
       type: "function",
     },
     {
-      inputs: [],
-      name: "currentPrice",
-      outputs: [
-        {
-          internalType: "int256",
-          name: "",
-          type: "int256",
-        },
-      ],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
       inputs: [
         {
           internalType: "int256",
@@ -279,7 +261,13 @@ function MintNFT({ pageCount, setPageCount }) {
       type: "function",
     },
     {
-      inputs: [],
+      inputs: [
+        {
+          internalType: "uint256",
+          name: "tokenId",
+          type: "uint256",
+        },
+      ],
       name: "getChainlinkDataFeedLatestAnswer",
       outputs: [
         {
@@ -311,9 +299,6 @@ function MintNFT({ pageCount, setPageCount }) {
           name: "owner",
           type: "address",
         },
-      ],
-      name: "getApproved",
-      outputs: [
         {
           internalType: "address",
           name: "operator",
@@ -390,8 +375,14 @@ function MintNFT({ pageCount, setPageCount }) {
       type: "function",
     },
     {
-      inputs: [],
-      name: "priceFeed",
+      inputs: [
+        {
+          internalType: "uint256",
+          name: "",
+          type: "uint256",
+        },
+      ],
+      name: "priceFeeds",
       outputs: [
         {
           internalType: "contract AggregatorV3Interface",
@@ -425,6 +416,11 @@ function MintNFT({ pageCount, setPageCount }) {
           internalType: "string[]",
           name: "metadataJson",
           type: "string[]",
+        },
+        {
+          internalType: "address",
+          name: "priceFeedAddress",
+          type: "address",
         },
       ],
       name: "safeMint",
@@ -522,6 +518,11 @@ function MintNFT({ pageCount, setPageCount }) {
     },
     {
       inputs: [
+        {
+          internalType: "uint256",
+          name: "tokenId",
+          type: "uint256",
+        },
         {
           internalType: "address",
           name: "newFeed",
@@ -630,7 +631,7 @@ function MintNFT({ pageCount, setPageCount }) {
   ];
 
   // to be updated mint NFT Contract address
-  const MintNFTContractAddress = "0x81F572ffb8a05082D36321f6C7226f9DbE491E87";
+  const MintNFTContractAddress = "0xFd51ab165d3253C08eAF085b48Bd5900C69Cf706";
 
   let priceFeedAddress = "";
   if (selectedAsset === "bitcoin") {
@@ -721,7 +722,7 @@ function MintNFT({ pageCount, setPageCount }) {
             <div>
               <h1 className="mainContent_body-title">Preview your NFT</h1>
               <div className="mainContent__body-imageWrapper">
-                {metadataInContext.file.map((item, index) => (
+                {/* {metadataInContext.file.map((item, index) => (
                   <div className="finalImage_container" key={index}>
                     <img src={item.image} className="final_image" alt="NFT" />
                     <p className="finalImage_info">
@@ -729,7 +730,7 @@ function MintNFT({ pageCount, setPageCount }) {
                       {item.attributes[0].value}
                     </p>
                   </div>
-                ))}
+                ))} */}
               </div>
             </div>
           ) : (

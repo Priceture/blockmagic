@@ -8,9 +8,9 @@ export default function MintSuccess() {
   const handleRedirectToOpensea = (event) => {
     /// ตัว test
     window.location.href =
-    "https://testnet.rarible.com/token/0x250f36675270D24E00d090712Cd8825A447bBD8C:2"
+      "https://testnets.opensea.io/assets/amoy/0xfd51ab165d3253c08eaf085b48bd5900c69cf706:2";
     /// ของจริง
-    // window.location.href = `https://testnet.rarible.com/token/${contractAddress}:${tokenId}`;
+    // window.location.href = `https://testnets.opensea.io/assets/amoy/0xfd51ab165d3253c08eaf085b48bd5900c69cf706:${tokenId}`;
   };
   const handleRedirectToTokenframe = () => {
     window.location.href = "https://tokenframe.com/";
