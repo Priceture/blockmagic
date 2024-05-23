@@ -5,6 +5,7 @@ import { AppContext } from "../context/AppContext";
 export default function MintSuccess() {
   const { tokenId, setTokenId } = useContext(AppContext);
   const contractAddress = `0x250f36675270D24E00d090712Cd8825A447bBD8C`;
+  console.log("This is tokenId", tokenId);
   const handleRedirectToOpensea = (event) => {
     /// ตัว test
     window.location.href =
