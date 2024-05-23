@@ -7,7 +7,7 @@ import { Button } from "@mui/material";
 
 function MintNFT({ pageCount, setPageCount }) {
   const { metadataInContext, setMetadataInContext } = useContext(AppContext);
-  const { priceArr, setPriceArr, tokenId, setTokenId } = useContext(AppContext);
+  const { priceArr, setPriceArr, tokenId, setTokenId, selectedAsset, setSelectedAsset } = useContext(AppContext);
   const {ipfsUrls, setIpfsUrls} = useContext(AppContext);
 
   
@@ -621,7 +621,16 @@ function MintNFT({ pageCount, setPageCount }) {
   // to be updated mint NFT Contract address
   const MintNFTContractAddress = '0x81F572ffb8a05082D36321f6C7226f9DbE491E87'
 
-  
+  let priceFeedAddress = "";
+  if (selectedAsset === "bitcoin") {
+    priceFeedAddress = "0xe7656e23fE8077D438aEfbec2fAbDf2D8e070C4f";
+  }  
+  if (selectedAsset === "ethereum") {
+    priceFeedAddress = "0xF0d50568e3A7e8259E16663972b11910F89BD8e7";
+  }
+  if (selectedAsset === "chainlink") {
+    priceFeedAddress = "0xc2e2848e28B9fE430Ab44F55a8437a33802a219C";
+  }
 
   const metadata = {
     file: [
@@ -675,7 +684,7 @@ function MintNFT({ pageCount, setPageCount }) {
     const NFTContract = new Contract(MintNFTContractAddress, Abi, signer)
 
     // have to update the arguments in safeMint to be address, JSON.stringify(metadata), pricetiers in array
-    const mintNFT = await NFTContract.safeMint(address, priceArr, ipfsUrls)
+    const mintNFT = await NFTContract.safeMint(address, priceArr, ipfsUrls, priceFeedAddress)
 
     // move page to success page
     setPageCount(pageCount + 1);
