@@ -9,6 +9,7 @@ export default function AppContextProvider({ children }) {
   const [selectedAsset, setSelectedAsset] = useState("");
   const [priceArr, setPriceArr] = useState([0, 0, 0, 0, 0]);
   const [tokenId, setTokenId] = useState("");
+  const [ipfsUrls, setIpfsUrls] = useState([]);
   const count = 1;
 
   return (
@@ -23,6 +24,8 @@ export default function AppContextProvider({ children }) {
         setTokenId,
         selectedAsset,
         setSelectedAsset,
+        ipfsUrls,
+        setIpfsUrls,
       }}
     >
       {children}

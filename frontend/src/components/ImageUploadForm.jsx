@@ -11,9 +11,13 @@ function ImageUploadForm({ pageCount, setPageCount }) {
   const { metadataInContext, setMetadataInContext } = useContext(AppContext);
   const { priceArr, setPriceArr } = useContext(AppContext);
   const [generateImageStatus, setGenerateImageStatus] = useState(null);
+  const {ipfsUrls, setIpfsUrls} = useContext(AppContext);
 
   // API token for Imagine API
   const imagine_api_token = "sbac0GOtT6UoDni3tGQMT3K_FxeSsqIn";
+
+  // Pintata API
+  const pintata_jwt = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiJiMTFjMjFlZC0wMzEzLTRlNzQtYjJhZi0xMTYxNmZhNDY2MDYiLCJlbWFpbCI6InNpdHRoYXZlZS50QGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJwaW5fcG9saWN5Ijp7InJlZ2lvbnMiOlt7ImlkIjoiRlJBMSIsImRlc2lyZWRSZXBsaWNhdGlvbkNvdW50IjoxfV0sInZlcnNpb24iOjF9LCJtZmFfZW5hYmxlZCI6ZmFsc2UsInN0YXR1cyI6IkFDVElWRSJ9LCJhdXRoZW50aWNhdGlvblR5cGUiOiJzY29wZWRLZXkiLCJzY29wZWRLZXlLZXkiOiJlNmFkNGQwMGMzMTY4MGJiZDI5YSIsInNjb3BlZEtleVNlY3JldCI6IjU1MjFlYmRmYjUzN2YwOTZkMGIyODhlMWJjNzcxM2JjZTg3YzM0YTUyMTBjODQ2MzJkOTJjNjhmZjFhOTM1NmQiLCJpYXQiOjE3MTY0NDk0OTR9.cpJvmgqwiD22ebRn38yKYrkrih-1Y_WJXMR2xJRrKTw";
 
   // Firebase configuration and initialization
   const firebaseConfig = {
@@ -177,7 +181,8 @@ function ImageUploadForm({ pageCount, setPageCount }) {
         return new Promise(async (resolve, reject) => {
           let allMetadata = [];
           for (let i = 0; i < prompt.length; i++) {
-            let metadata = await generateImage(i);
+            // let metadata = await generateImage(i);
+            let metadata = {name: `nft ${i}`}
             console.log(
               "the metadata for this image generation is: " + metadata
             );
@@ -201,18 +206,39 @@ function ImageUploadForm({ pageCount, setPageCount }) {
             const metadata = {
               file: allMetadata,
             };
-            const jsonString = JSON.stringify(metadata);
-            const blob = new Blob([jsonString], { type: "application/json" });
-            const imageNameWithOutExtension = imageName.split(".")[0];
-            const jsonFileName = imageNameWithOutExtension + ".json";
+            console.log("Your JSON metada is : " + metadata);
 
-            // to be updated the location path
-            const jsonRef = ref(storage, `json/${jsonFileName}`);
-            // const jsonUrlInGeneration = `https://firebasestorage.googleapis.com/v0/b/priceture.appspot.com/o/json%2F${jsonFileName}?alt=media`;
-
+            // const jsonString = JSON.stringify(metadata);
+            const jsonStringArr = [JSON.stringify(allMetadata[0]), JSON.stringify(allMetadata[1]), JSON.stringify(allMetadata[2]), JSON.stringify(allMetadata[3]), JSON.stringify(allMetadata[4])];
+            console.log("jsonStringArr is: ", jsonStringArr)
+       
             try {
-              await uploadBytes(jsonRef, blob);
-              console.log("Your JSON metada is : " + metadata);
+              // upload metadata JSON to IPFS via Pinata
+              let allIpfsUrl = [];
+              for (let i = 0; i < jsonStringArr.length; i++) {
+                const res = await fetch(
+                  "https://api.pinata.cloud/pinning/pinJSONToIPFS",
+                  {
+                    method: "POST",
+                    headers: {
+                      Authorization: `Bearer ${pintata_jwt}`,
+                      "Content-Type": "application/json",
+                    },
+                    body: jsonStringArr[i],
+                  }
+                );
+                const resData = await res.json();
+                allIpfsUrl.push("https://aqua-mobile-bandicoot-440.mypinata.cloud/ipfs/" + resData.IpfsHash);
+              }
+
+              // add IPFS link to the state
+              if (allIpfsUrl.length === jsonStringArr.length) {
+
+                console.log("allIpfsUrl is: ", allIpfsUrl);
+
+                setIpfsUrls(allIpfsUrl);
+              }
+  
             } catch (error) {
               console.error("Error uploading json: ", error);
             }

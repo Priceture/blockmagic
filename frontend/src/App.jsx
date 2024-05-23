@@ -18,6 +18,15 @@ const sepolia = {
     "https://eth-sepolia.g.alchemy.com/v2/W1UaG3jPy8sk7e1fp39n05xNjzaW9eCQ",
 };
 
+const amoy = {
+  chainId: 80002,
+  name: "Polygon Amoy Testnet",
+  currency: "MATIC",
+  explorerUrl: "https://amoy.polygonscan.com/",
+  rpcUrl:
+    "https://rpc-amoy.polygon.technology/",
+}
+
 // 3. Create a metadata object
 const metadata = {
   name: "My Website",
@@ -41,7 +50,7 @@ const ethersConfig = defaultConfig({
 // 5. Create a Web3Modal instance
 createWeb3Modal({
   ethersConfig,
-  chains: [sepolia],
+  chains: [amoy],
   projectId,
   enableAnalytics: true, // Optional - defaults to your Cloud configuration
 });
