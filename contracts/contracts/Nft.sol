@@ -97,7 +97,7 @@ contract PriceTureNFT is
         int256 latestPrice,
         uint256 tokenId
     ) public view returns (uint256) {
-        for (uint256 i = 4; i > 0; i--) {
+        for (uint256 i = 4; i >= 0; i--) {
             if (uint256(latestPrice) >= _priceTiersThresholds[tokenId][i]) {
                 return i;
             }
