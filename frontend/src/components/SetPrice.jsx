@@ -85,18 +85,20 @@ function SetPrice({ pageCount, setPageCount }) {
       <div className="mainContent__setPrice">
         <div className="">
           <div className="mainContent_body-title">Your Selected Assets</div>
-          <div>Price is from Coinmarketcap. Last update xxx </div>
+          <div>Price is from Coinmarketcap. </div>
         </div>
         <div className="mainContent_setPrice-container">
-          <div className="setPrice__subcontainer">
+          <div className="setPrice__subcontainer_head">
             <div className="setPrice__subcontainer-item">Asset Name</div>
             <div className="setPrice__subcontainer-item">{selectedAsset}</div>
           </div>
-          <div className="setPrice__subcontainer">
+          <div className="setPrice__subcontainer_head">
             <div className="setPrice__subcontainer-item">
               Current Asset Price
             </div>
-            <div className="setPrice__subcontainer-item">{bitcoinPrice}</div>
+            <div className="setPrice__subcontainer-item">
+              {bitcoinPrice.toFixed(2)}
+            </div>
             <div className="setPrice__subcontainer-item"> USD </div>
           </div>
         </div>
@@ -121,69 +123,95 @@ function SetPrice({ pageCount, setPageCount }) {
             <div className="setPrice__subcontainer-sub">
               <span className="setPrice__subcontainer-item-sm">=</span>
               <span className="setPrice__subcontainer-item">
-                {bitcoinPrice * (1 + priceHH / 100)}
+                {(bitcoinPrice * (1 + priceHH / 100)).toFixed(2)}
               </span>
               <span className="setPrice__subcontainer-item-sm">USD</span>
             </div>
           </div>
           <div className="setPrice__subcontainer">
-            <span>Higher Price - Tier 2</span>
-            <span>+</span>
+            <span className="setPrice__subcontainer-item">
+              Higher Price - Tier 2
+            </span>
+            <span className="setPrice__subcontainer-item-sm">+</span>
             <input
-              className="priceForm__input"
+              className="setPrice__subcontainer-item"
               type="text"
               placeholder="Enter price here"
               value={priceH}
               onChange={handleChangePriceH}
               style={{ color: "black" }}
             ></input>
-            <span>%</span>
-            <span className="priceForm__calculatedprice">
-              ={bitcoinPrice * (1 + priceH / 100)} USD
-            </span>
+            <span className="setPrice__subcontainer-item-sm">%</span>
+            <div className="setPrice__subcontainer-sub">
+              <span className="setPrice__subcontainer-item-sm">=</span>
+              <span className="setPrice__subcontainer-item">
+                {(bitcoinPrice * (1 + priceH / 100)).toFixed(2)}
+              </span>
+              <span className="setPrice__subcontainer-item-sm">USD</span>
+            </div>
           </div>
+
           <div className="setPrice__subcontainer">
-            <span>Current Price</span>
-            <span>+</span>
-            <div className="priceForm__input">0</div>
-            <span className="priceForm__calculatedprice">
-              % ={bitcoinPrice} USD
-            </span>
+            <span className="setPrice__subcontainer-item">Current Price</span>
+            <span className="setPrice__subcontainer-item-sm">+</span>
+            <span className="setPrice__subcontainer-item">0</span>
+            <span className="setPrice__subcontainer-item-sm">%</span>
+            <div className="setPrice__subcontainer-sub">
+              <span className="setPrice__subcontainer-item-sm">=</span>
+              <span className="setPrice__subcontainer-item">
+                {bitcoinPrice.toFixed(2)}
+              </span>
+              <span className="setPrice__subcontainer-item-sm">USD</span>
+            </div>
           </div>
+
           <div className="setPrice__subcontainer">
-            <span>Lower Price - Tier 1</span>
-            <span>-</span>
+            <span className="setPrice__subcontainer-item">
+              Lower Price - Tier 1
+            </span>
+            <span className="setPrice__subcontainer-item-sm">+</span>
             <input
-              className="priceForm__input"
+              className="setPrice__subcontainer-item"
               type="text"
               placeholder="Enter price here"
               value={priceL}
               onChange={handleChangePriceL}
               style={{ color: "black" }}
             ></input>
-            <span className="priceForm__calculatedprice">
-              {" "}
-              ={(bitcoinPrice * (100 - priceL)) / 100} USD
-            </span>
+            <span className="setPrice__subcontainer-item-sm">%</span>
+            <div className="setPrice__subcontainer-sub">
+              <span className="setPrice__subcontainer-item-sm">=</span>
+              <span className="setPrice__subcontainer-item">
+                {((bitcoinPrice * (100 - priceL)) / 100).toFixed(2)}
+              </span>
+              <span className="setPrice__subcontainer-item-sm">USD</span>
+            </div>
           </div>
+
           <div className="setPrice__subcontainer">
-            <span>Lower Price - Tier 2</span>
-            <span>-</span>
+            <span className="setPrice__subcontainer-item">
+              Lower Price - Tier 2
+            </span>
+            <span className="setPrice__subcontainer-item-sm">-</span>
             <input
-              className="priceForm__input"
+              className="setPrice__subcontainer-item"
               type="text"
               placeholder="Enter price here"
               value={priceLL}
               onChange={handleChangePriceLL}
               style={{ color: "black" }}
             ></input>
-            <span className="priceForm__calculatedprice">
-              {" "}
-              ={(bitcoinPrice * (100 - priceLL)) / 100} USD
-            </span>
+            <span className="setPrice__subcontainer-item-sm">%</span>
+            <div className="setPrice__subcontainer-sub">
+              <span className="setPrice__subcontainer-item-sm">=</span>
+              <span className="setPrice__subcontainer-item">
+                {((bitcoinPrice * (100 - priceLL)) / 100).toFixed(2)}
+              </span>
+              <span className="setPrice__subcontainer-item-sm">USD</span>
+            </div>
           </div>
         </div>
-        <div className="mainContent__footer">
+        <div className="flex flex-row justify-center">
           <Button
             onClick={handleSubmitForm}
             color="inherit"

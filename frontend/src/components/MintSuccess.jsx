@@ -17,13 +17,27 @@ export default function MintSuccess() {
   };
   return (
     <div>
-      <h1>mintSuccess</h1>
-      <button className="confirmBtn" onClick={handleRedirectToOpensea}>
-        Go to Openseas
-      </button>
-      <button className="confirmBtn" onClick={handleRedirectToTokenframe}>
-        Get your NFT frame
-      </button>
+      <div className="mainContent__header">
+        <div className="mainContent__header-stepname">
+          Congratulations! Your NFT is Ready In Your Wallet!🥳🥳
+        </div>
+        <div className="mainContent__header-explain">
+          You can check your NFT on OpenSea or Get the NFT physical fram to hang
+          this special NFT in your home or gallery. <br />
+          Enjoy!
+        </div>
+      </div>
+      <div className="flex flex-row p-10 justify-center gap-4">
+        <button className="confirmBtn" onClick={handleRedirectToOpensea}>
+          Go to Openseas
+        </button>
+        <button
+          className="confirmBtn-ghost"
+          onClick={handleRedirectToTokenframe}
+        >
+          Get your NFT frame
+        </button>
+      </div>
     </div>
   );
 }

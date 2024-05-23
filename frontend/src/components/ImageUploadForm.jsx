@@ -297,23 +297,31 @@ function ImageUploadForm({ pageCount, setPageCount }) {
             className="mainContent__body-uploadFile"
             onChange={handleChange}
           />
-          <button
-            className="actionBtn"
-            type="submit"
-            disabled={generateImageStatus === "process"}
-          >
-            {generateImageStatus === "process"
-              ? "Generating... wait a few mins"
-              : generateImageStatus === "done"
-              ? "Next"
-              : "Upload Image"}
-          </button>
+          {generateImageStatus === "done" ? null : (
+            <button
+              className="actionBtn"
+              type="submit"
+              disabled={generateImageStatus === "process"}
+            >
+              Upload Image
+              {/* {generateImageStatus === "process"
+                ? "Generating... wait a few mins"
+                : generateImageStatus === "done"
+                ? null
+                : "Upload Image"} */}
+            </button>
+          )}
         </form>
+        {generateImageStatus === "process" ? (
+          <div>Image is being generated. Please wait a few moments</div>
+        ) : null}
       </div>
       <div className="mainContent__footer">
         <button
           className={
-            generateImageStatus === "done" ? "confirmBtn" : "confirmBtn-ghost"
+            generateImageStatus === "done"
+              ? "confirmBtn"
+              : "confirmBtn-disabled"
           }
           onClick={handleClick}
         >

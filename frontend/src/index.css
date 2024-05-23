@@ -80,7 +80,7 @@ code {
 .mainContent__body-connectwallet {
   width: 400px;
   height: 64px;
-  background-color: #f2cd5c;
+  background-color: #a61f69;
   border-radius: 16px;
   display: flex;
   justify-content: center;
@@ -88,6 +88,7 @@ code {
 }
 .mainContent__body-imageUploadForm {
   background-color: azure;
+  display: flex;
 }
 .mainContent__body-uploadFile {
   color: #400e32;
@@ -133,6 +134,11 @@ code {
   border-radius: 16px;
   padding: 24px;
 }
+.setPrice__subcontainer_head {
+  height: 64px;
+  display: flex;
+  align-items: center;
+}
 .setPrice__subcontainer {
   /* border: 0.5px solid white; */
   height: 64px;
@@ -143,6 +149,7 @@ code {
 .setPrice__subcontainer-sub {
   display: flex;
 }
+
 .setPrice__subcontainer-item {
   /* border: 0.5px solid white; */
   width: 200px;
@@ -173,6 +180,9 @@ code {
   font-weight: 600;
   border-radius: 8px;
 }
+.hide {
+  display: none;
+}
 .actionBtn_ghost {
   height: 36px;
   width: 120px;
@@ -182,7 +192,7 @@ code {
   border-radius: 8px;
 }
 .confirmBtn {
-  width: 200px;
+  min-width: 200px;
   height: 64px;
   background-color: #f2cd5c;
   font-size: 20px;
@@ -191,8 +201,11 @@ code {
   padding: 8px 24px;
   border-radius: 16px;
 }
+.confirmBtn-disabled {
+  display: none;
+}
 .confirmBtn-ghost {
-  width: 200px;
+  min-width: 200px;
   height: 64px;
   background-color: none;
   font-size: 20px;

@@ -23,9 +23,8 @@ const amoy = {
   name: "Polygon Amoy Testnet",
   currency: "MATIC",
   explorerUrl: "https://amoy.polygonscan.com/",
-  rpcUrl:
-    "https://rpc-amoy.polygon.technology/",
-}
+  rpcUrl: "https://rpc-amoy.polygon.technology/",
+};
 
 // 3. Create a metadata object
 const metadata = {
@@ -53,6 +52,13 @@ createWeb3Modal({
   chains: [amoy],
   projectId,
   enableAnalytics: true, // Optional - defaults to your Cloud configuration
+  size: "md",
+  themeMode: "dark",
+  themeVariables: {
+    "--w3m-accent": "#f2cd5c",
+    "--w3m-color-mix": "#f2cd5c",
+    "--w3m-color-mix-strength": 40,
+  },
 });
 
 export default function App() {

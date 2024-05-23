@@ -13,10 +13,9 @@ function SelectAsset({ pageCount, setPageCount }) {
     { name: "chainlink", symbol: "LINK", logo: chainlinklogo },
   ];
   const handleSelectAsset = (event) => {
-    // ดึงค่า asset ที่เค้าเลือก
-    console.log(event);
-    console.log(event.target.value);
-    setSelectedAsset(event.target.value);
+    // ดึงค่า asset ที่เค้าเลือกมาจาก id
+    console.log(event.target.id);
+    setSelectedAsset(event.target.id);
     setPageCount(pageCount + 1);
   };
   function Asset({ assetList }) {
@@ -26,10 +25,11 @@ function SelectAsset({ pageCount, setPageCount }) {
         className="mainContent__body-asset"
         type="submit"
         value={asset.name}
+        id={asset.name}
         onClick={handleSelectAsset}
       >
-        <img className="assetLogo" src={asset.logo}></img>
-        <p>{`${asset.name} (${asset.symbol})`} </p>
+        <img id={asset.name} className="assetLogo" src={asset.logo}></img>
+        <p id={asset.name}>{`${asset.name} (${asset.symbol})`} </p>
       </button>
     ));
   }
