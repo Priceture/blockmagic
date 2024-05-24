@@ -38,8 +38,7 @@ function SelectAsset({ pageCount, setPageCount }) {
       <div className="mainContent__header">
         <div className="mainContent__header-stepname">Step 3: Select Asset</div>
         <div className="mainContent__header-explain">
-          Choose your favorite asset to track to price. <br /> You can select
-          only 1 asset at at time.
+          Choose your favorite asset to track the price.
         </div>
       </div>
       <div className="mainContent__body">

@@ -54,7 +54,7 @@ function ImageUploadForm({ pageCount, setPageCount }) {
       const imageRef = ref(storage, `images/${imageName}`);
       try {
         await uploadBytes(imageRef, image);
-        alert("Image uploaded successfully!");
+        alert("We got your image! Let we cook your image!");
         console.log(
           `Your image URL is : https://firebasestorage.googleapis.com/v0/b/priceture.appspot.com/o/images%2F${imageName}?alt=media`
         );
@@ -180,80 +180,102 @@ function ImageUploadForm({ pageCount, setPageCount }) {
       // create metadata JSON for NFT
       async function createMetaData() {
         return new Promise(async (resolve, reject) => {
-          let allMetadata = [];
-          for (let i = 0; i < prompt.length; i++) {
-            // let metadata = await generateImage(i);
-            let metadata = { name: `nft ${i}` };
-            console.log(
-              "the metadata for this image generation is: " + metadata
+          // function to generate all images at the same time
+          async function generateAllImages(prompts) {
+            const imagePromises = prompts.map((_, index) =>
+              generateImage(index)
             );
-            allMetadata.push(metadata);
+            try {
+              const allMetadata = await Promise.all(imagePromises);
+              console.log("All metadata:", allMetadata);
+              return allMetadata; // This array will be in the correct order
+            } catch (error) {
+              console.error("An error occurred:", error);
+            }
           }
 
-          // Add the uploaded image metadata at the middle of array
-          allMetadata.splice(2, 0, {
-            name: "Priceture NFT",
-            description: "Your Price, Your Mood, Your NFT",
-            image: `https://firebasestorage.googleapis.com/v0/b/priceture.appspot.com/o/images%2F${imageName}?alt=media`,
-            attributes: [
-              {
-                trait_type: "Feeling",
-                value: "Normal",
-              },
-            ],
-          });
-
-          if (allMetadata.length > prompt.length) {
-            const metadata = {
-              file: allMetadata,
-            };
-            console.log("Your JSON metada is : " + metadata);
-
-            // const jsonString = JSON.stringify(metadata);
-            const jsonStringArr = [
-              JSON.stringify(allMetadata[0]),
-              JSON.stringify(allMetadata[1]),
-              JSON.stringify(allMetadata[2]),
-              JSON.stringify(allMetadata[3]),
-              JSON.stringify(allMetadata[4]),
-            ];
-            console.log("jsonStringArr is: ", jsonStringArr);
-
+          // Usage the generateAllImages function:
+          (async () => {
             try {
-              // upload metadata JSON to IPFS via Pinata
-              let allIpfsUrl = [];
-              for (let i = 0; i < jsonStringArr.length; i++) {
-                const res = await fetch(
-                  "https://api.pinata.cloud/pinning/pinJSONToIPFS",
+              const allMetadata = await generateAllImages(prompt);
+              // Add the uploaded image metadata at the middle of array
+              allMetadata.splice(2, 0, {
+                name: "Priceture NFT",
+                description: "Your Price, Your Mood, Your NFT",
+                image: `https://firebasestorage.googleapis.com/v0/b/priceture.appspot.com/o/images%2F${imageName}?alt=media`,
+                attributes: [
                   {
-                    method: "POST",
-                    headers: {
-                      Authorization: `Bearer ${pintata_jwt}`,
-                      "Content-Type": "application/json",
-                    },
-                    body: jsonStringArr[i],
+                    trait_type: "Feeling",
+                    value: "Normal",
+                  },
+                ],
+              });
+
+              if (allMetadata.length > prompt.length) {
+                const metadata = {
+                  file: allMetadata,
+                };
+                console.log("Your JSON metada is : " + metadata);
+
+                // const jsonString = JSON.stringify(metadata);
+                const jsonStringArr = [
+                  JSON.stringify(allMetadata[0]),
+                  JSON.stringify(allMetadata[1]),
+                  JSON.stringify(allMetadata[2]),
+                  JSON.stringify(allMetadata[3]),
+                  JSON.stringify(allMetadata[4]),
+                ];
+                console.log("jsonStringArr is: ", jsonStringArr);
+
+                try {
+                  // upload metadata JSON to IPFS via Pinata
+                  let allIpfsUrl = [];
+                  for (let i = 0; i < jsonStringArr.length; i++) {
+                    const res = await fetch(
+                      "https://api.pinata.cloud/pinning/pinJSONToIPFS",
+                      {
+                        method: "POST",
+                        headers: {
+                          Authorization: `Bearer ${pintata_jwt}`,
+                          "Content-Type": "application/json",
+                        },
+                        body: jsonStringArr[i],
+                      }
+                    );
+                    const resData = await res.json();
+                    allIpfsUrl.push(
+                      "https://aqua-mobile-bandicoot-440.mypinata.cloud/ipfs/" +
+                        resData.IpfsHash
+                    );
                   }
-                );
-                const resData = await res.json();
-                allIpfsUrl.push(
-                  "https://aqua-mobile-bandicoot-440.mypinata.cloud/ipfs/" +
-                    resData.IpfsHash
-                );
-              }
 
-              // add IPFS link to the state
-              if (allIpfsUrl.length === jsonStringArr.length) {
-                console.log("allIpfsUrl is: ", allIpfsUrl);
+                  // add IPFS link to the state
+                  if (allIpfsUrl.length === jsonStringArr.length) {
+                    console.log("allIpfsUrl is: ", allIpfsUrl);
 
-                setIpfsUrls(allIpfsUrl);
+                    setIpfsUrls(allIpfsUrl);
+                  }
+                } catch (error) {
+                  console.error("Error uploading json: ", error);
+                }
+                resolve(metadata);
+              } else {
+                console.log("Error in creating metadata.");
               }
             } catch (error) {
-              console.error("Error uploading json: ", error);
+              console.error("Error generating images:", error);
             }
-            resolve(metadata);
-          } else {
-            console.log("Error in creating metadata.");
-          }
+          })();
+
+          // let allMetadata = [];
+          // for (let i = 0; i < prompt.length; i++) {
+          //   let metadata = await generateImage(i);
+          //   // let metadata = { name: `nft ${i}` };
+          //   console.log(
+          //     "the metadata for this image generation is: " + metadata
+          //   );
+          //   allMetadata.push(metadata);
+          // }
         });
       }
 
@@ -284,7 +306,7 @@ function ImageUploadForm({ pageCount, setPageCount }) {
         <div className="mainContent__header-explain">
           Upload any image of your favorite. This image will be turned into an
           NFT.
-          <br /> Your image must be square with image size of less than 1 MB
+          <br /> Your image must be square less than 1 MB
         </div>
       </div>
       <div className="mainContent__body">
@@ -297,23 +319,28 @@ function ImageUploadForm({ pageCount, setPageCount }) {
             className="mainContent__body-uploadFile"
             onChange={handleChange}
           />
-          {generateImageStatus === "done" ? null : (
+          {generateImageStatus === "done" || !image ? null : (
             <button
-              className="actionBtn"
+              className={
+                generateImageStatus === "process"
+                  ? "bg-slate-400 rounded-md text-white disabled:opacity-50 disabled:cursor-not-allowed"
+                  : "actionBtn"
+              }
               type="submit"
               disabled={generateImageStatus === "process"}
             >
-              Upload Image
-              {/* {generateImageStatus === "process"
-                ? "Generating... wait a few mins"
+              {generateImageStatus === "process"
+                ? "Generating..."
                 : generateImageStatus === "done"
                 ? null
-                : "Upload Image"} */}
+                : "Upload Image"}
             </button>
           )}
         </form>
         {generateImageStatus === "process" ? (
-          <div>Image is being generated. Please wait a few moments</div>
+          <div>
+            We are asking AI to generate images for you, please wait 1-5 mins
+          </div>
         ) : null}
       </div>
       <div className="mainContent__footer">
