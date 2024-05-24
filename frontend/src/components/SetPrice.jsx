@@ -78,14 +78,12 @@ function SetPrice({ pageCount, setPageCount }) {
           Step 4: Set Conditions
         </div>
         <div className="mainContent__header-explain">
-          NFT will change their image and metadata based on the trigger points
-          below
+          Your NFT will change the mood based on the conditions below
         </div>
       </div>
       <div className="mainContent__setPrice">
         <div className="">
-          <div className="mainContent_body-title">Your Selected Assets</div>
-          <div>Price is from Coinmarketcap. </div>
+          <div className="mainContent_body-title">Your selected assets</div>
         </div>
         <div className="mainContent_setPrice-container">
           <div className="setPrice__subcontainer_head">
@@ -103,7 +101,7 @@ function SetPrice({ pageCount, setPageCount }) {
           </div>
         </div>
         <div className="mainContent_body-title">
-          Setup Four Price Tiers That Will Trigger NFT To Change Mood
+          Setup 4 price tiers that will trigger NFT to change their mood
         </div>
         <div className="mainContent_setPrice-container">
           <div className="setPrice__subcontainer">
