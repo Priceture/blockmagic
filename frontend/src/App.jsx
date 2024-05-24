@@ -1,5 +1,6 @@
 import "./App.css";
 import Router from "./routes/Router";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 /// Try with Wallet Connect
 import { createWeb3Modal, defaultConfig } from "@web3modal/ethers/react";
@@ -61,11 +62,32 @@ createWeb3Modal({
   },
 });
 
+///=== Setup MUI theme context provider
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#f2cd5c",
+      contrastText: "#fff",
+      // light: will be calculated from palette.primary.main,
+      // dark: will be calculated from palette.primary.main,
+      // contrastText: will be calculated to contrast with palette.primary.main
+    },
+    secondary: {
+      main: "#400e32",
+      light: "#a61f69",
+      // dark: will be calculated from palette.secondary.main,
+      contrastText: "#000",
+    },
+  },
+});
+
 export default function App() {
   return (
     <div className="app">
       <AppContextProvider>
-        <Router />
+        <ThemeProvider theme={theme}>
+          <Router />
+        </ThemeProvider>
       </AppContextProvider>
     </div>
   );

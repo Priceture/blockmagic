@@ -1,5 +1,6 @@
 import * as React from "react";
 import { useContext } from "react";
+import { useTheme } from "@mui/material/styles";
 
 import pricturelogo from "../assets/pricturelogo.svg";
 import {
@@ -22,6 +23,7 @@ export default function AppBar() {
     event.preventDefault();
     navigate("/register");
   };
+  const theme = useTheme();
   return (
     <Box sx={{ flexGrow: 1 }}>
       <MuiAppBar position="static" sx={{ backgroundColor: "#400e32" }}>
