@@ -209,7 +209,7 @@ function SetPrice({ pageCount, setPageCount }) {
             </div>
           </div>
         </div>
-        <div className="flex flex-row justify-center">
+        <div className="flex flex-row justify-center border-white">
           <Button
             onClick={handleSubmitForm}
             color="inherit"

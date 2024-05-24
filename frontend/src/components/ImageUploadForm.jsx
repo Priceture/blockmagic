@@ -54,7 +54,6 @@ function ImageUploadForm({ pageCount, setPageCount }) {
       const imageRef = ref(storage, `images/${imageName}`);
       try {
         await uploadBytes(imageRef, image);
-        alert("We got your image! Let we cook your image!");
         console.log(
           `Your image URL is : https://firebasestorage.googleapis.com/v0/b/priceture.appspot.com/o/images%2F${imageName}?alt=media`
         );

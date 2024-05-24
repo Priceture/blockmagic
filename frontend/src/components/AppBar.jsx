@@ -1,8 +1,10 @@
 import * as React from "react";
 import { useContext } from "react";
-import { useTheme } from "@mui/material/styles";
+import { HashRouter as Router, Route, Link } from "react-router-dom";
 
 import pricturelogo from "../assets/pricturelogo.svg";
+// import pricture-logo from "../assets/pricture-logo.svg"
+
 import {
   Box,
   Container,
@@ -15,15 +17,22 @@ import {
 import MuiAppBar from "@mui/material/AppBar";
 import { AppContext } from "../context/AppContext.jsx";
 import { useNavigate } from "react-router-dom";
+import { LogDescription } from "ethers";
 
 export default function AppBar() {
-  //   const { goToRegisterPage } = useContext(AppContext);
+  const { pageCount, setPageCount } = useContext(AppContext);
   const navigate = useNavigate();
+  const handleGotoHomepage = () => {
+    navigate("/");
+  };
   const handleGoToRegister = (event) => {
     event.preventDefault();
-    navigate("/register");
+    if (pageCount === 0) {
+      navigate("/register");
+    } else setPageCount(0);
   };
-  const theme = useTheme();
+
+  // const theme = useTheme();
   return (
     <Box sx={{ flexGrow: 1 }}>
       <MuiAppBar position="static" sx={{ backgroundColor: "#400e32" }}>
@@ -32,32 +41,40 @@ export default function AppBar() {
           alignitems="center"
           sx={{ justifyContent: "space-between" }}
         >
-          <Box component="div" display="flex" alignitems="center" gap="16px">
-            <img src={pricturelogo}></img>
-            <Typography
-              variant="h5"
+          <Button>
+            <Box
+              onClick={handleGotoHomepage}
               component="div"
-              sx={{ flexGrow: 1, color: "#F2cd5C" }}
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                gap: "8px",
+              }}
             >
-              PRICTURE
-            </Typography>
-          </Box>
+              <img
+                className="prictureLogo"
+                src={pricturelogo}
+                alt="pricture logo"
+              ></img>
+            </Box>
+          </Button>
 
           <Box display="flex" sx={{ gap: "24px" }}>
-            <Box display="flex">
-              <Button color="inherit" className="button" sx={{ flexGrow: 1 }}>
-                WHAT IS PRICTURE
+            {/* <Box display="flex"> */}
+            {/* <Button color="inherit" className="button" sx={{ flexGrow: 1 }}>
+                <Link to="#whatispriceture">WHAT IS PRICTURE</Link>
               </Button>
               <Button color="inherit" className="button" sx={{ flexGrow: 1 }}>
-                HOW IT WORKS
+                <Link to="#howitworks">HOW IT WORKS</Link>
               </Button>
               <Button color="inherit" className="button" sx={{ flexGrow: 1 }}>
-                SHOWCAST
-              </Button>
-              <Button color="inherit" className="button" sx={{ flexGrow: 1 }}>
-                OUR TEAM
+                <Link to="#ourteam">OUR TEAM</Link>
               </Button>
             </Box>
+            <Route path="/" exact component={whatispricture} />
+              <Route path="/" component={howitworks} />
+              <Route path="/" component={ourteam} /> */}
             <Button
               onClick={handleGoToRegister}
               color="inherit"

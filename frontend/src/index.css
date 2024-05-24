@@ -30,21 +30,24 @@ code {
   background-color: #400e32;
   color: white;
 }
-
-.registerpage {
+.prictureLogo {
+  height: 40px;
+}
+.registerpage,
+.homepage {
   padding-inline: 200px;
   padding-top: 64px;
   display: flex;
   flex-direction: column;
-  border: 1px solid white;
+}
+.homepageCard {
+  padding-block: 64px;
 }
 .progressBar {
-  border: 1px solid white;
   padding-block: 12px;
 }
 .mainContent {
   min-height: 600px;
-  border: 1px solid white;
   padding-block: 32px;
 }
 .mainContent__header {
@@ -53,6 +56,11 @@ code {
   gap: 8px;
   flex-direction: column;
   width: 100%;
+}
+.homepage_slogan {
+  font-size: 48px;
+  font-weight: 800;
+  color: #f2cd5c;
 }
 .mainContent__header-stepname {
   font-size: 36px;

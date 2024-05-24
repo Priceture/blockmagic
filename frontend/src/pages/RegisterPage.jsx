@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { AppContext } from "../context/AppContext";
 // import ConnectWallet from "../components/ConnectWallet";
 import { useWeb3ModalAccount } from "@web3modal/ethers/react";
 import SetPrice from "../components/SetPrice";
@@ -11,7 +12,7 @@ import ProgressBar from "../components/ProgressBar";
 
 //Note: เอา pageCount ไปเซ็ตเป็น context สำหรับ register page ทีหลัง
 function RegisterPage() {
-  const [pageCount, setPageCount] = useState(0);
+  const { pageCount, setPageCount } = useContext(AppContext);
   return (
     <div className="registerpage">
       <div className="progressBar">
