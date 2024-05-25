@@ -103,10 +103,14 @@ function SetPrice({ pageCount, setPageCount }) {
         <div className="mainContent_body-title">
           Setup 4 price tiers that will trigger NFT to change their mood
         </div>
+        <div className="mainContent__header-explain">
+          From highest price at which NFT changes to very happy mood, to lowest
+          price at which NFT changes to very sad mood
+        </div>
         <div className="mainContent_setPrice-container">
           <div className="setPrice__subcontainer">
             <span className="setPrice__subcontainer-item">
-              Higher Price - Tier 1
+              Highest Price : Very Happy
             </span>
             <span className="setPrice__subcontainer-item-sm">+</span>
             <input
@@ -120,7 +124,7 @@ function SetPrice({ pageCount, setPageCount }) {
             <span className="setPrice__subcontainer-item-sm">%</span>
             <div className="setPrice__subcontainer-sub">
               <span className="setPrice__subcontainer-item-sm">=</span>
-              <span className="setPrice__subcontainer-item">
+              <span className="setPrice__subcontainer-item-center">
                 {(bitcoinPrice * (1 + priceHH / 100)).toFixed(2)}
               </span>
               <span className="setPrice__subcontainer-item-sm">USD</span>
@@ -128,7 +132,7 @@ function SetPrice({ pageCount, setPageCount }) {
           </div>
           <div className="setPrice__subcontainer">
             <span className="setPrice__subcontainer-item">
-              Higher Price - Tier 2
+              Higher Price : Happy
             </span>
             <span className="setPrice__subcontainer-item-sm">+</span>
             <input
@@ -142,7 +146,7 @@ function SetPrice({ pageCount, setPageCount }) {
             <span className="setPrice__subcontainer-item-sm">%</span>
             <div className="setPrice__subcontainer-sub">
               <span className="setPrice__subcontainer-item-sm">=</span>
-              <span className="setPrice__subcontainer-item">
+              <span className="setPrice__subcontainer-item-center">
                 {(bitcoinPrice * (1 + priceH / 100)).toFixed(2)}
               </span>
               <span className="setPrice__subcontainer-item-sm">USD</span>
@@ -150,13 +154,15 @@ function SetPrice({ pageCount, setPageCount }) {
           </div>
 
           <div className="setPrice__subcontainer">
-            <span className="setPrice__subcontainer-item">Current Price</span>
+            <span className="setPrice__subcontainer-item">
+              Current Price : Normal
+            </span>
             <span className="setPrice__subcontainer-item-sm">+</span>
             <span className="setPrice__subcontainer-item">0</span>
             <span className="setPrice__subcontainer-item-sm">%</span>
             <div className="setPrice__subcontainer-sub">
               <span className="setPrice__subcontainer-item-sm">=</span>
-              <span className="setPrice__subcontainer-item">
+              <span className="setPrice__subcontainer-item-center">
                 {bitcoinPrice.toFixed(2)}
               </span>
               <span className="setPrice__subcontainer-item-sm">USD</span>
@@ -165,7 +171,7 @@ function SetPrice({ pageCount, setPageCount }) {
 
           <div className="setPrice__subcontainer">
             <span className="setPrice__subcontainer-item">
-              Lower Price - Tier 1
+              Lower Price : Sad
             </span>
             <span className="setPrice__subcontainer-item-sm">+</span>
             <input
@@ -179,7 +185,7 @@ function SetPrice({ pageCount, setPageCount }) {
             <span className="setPrice__subcontainer-item-sm">%</span>
             <div className="setPrice__subcontainer-sub">
               <span className="setPrice__subcontainer-item-sm">=</span>
-              <span className="setPrice__subcontainer-item">
+              <span className="setPrice__subcontainer-item-center">
                 {((bitcoinPrice * (100 - priceL)) / 100).toFixed(2)}
               </span>
               <span className="setPrice__subcontainer-item-sm">USD</span>
@@ -188,7 +194,7 @@ function SetPrice({ pageCount, setPageCount }) {
 
           <div className="setPrice__subcontainer">
             <span className="setPrice__subcontainer-item">
-              Lower Price - Tier 2
+              Lowest Price : Very Sad
             </span>
             <span className="setPrice__subcontainer-item-sm">-</span>
             <input
@@ -202,29 +208,29 @@ function SetPrice({ pageCount, setPageCount }) {
             <span className="setPrice__subcontainer-item-sm">%</span>
             <div className="setPrice__subcontainer-sub">
               <span className="setPrice__subcontainer-item-sm">=</span>
-              <span className="setPrice__subcontainer-item">
+              <span className="setPrice__subcontainer-item-center">
                 {((bitcoinPrice * (100 - priceLL)) / 100).toFixed(2)}
               </span>
               <span className="setPrice__subcontainer-item-sm">USD</span>
             </div>
           </div>
         </div>
-        <div className="flex flex-row justify-center border-white">
-          <Button
-            onClick={handleSubmitForm}
-            color="inherit"
-            className="button"
-            sx={{
-              color: "#400e32",
-              backgroundColor: "#F2cd5C",
-              width: "200px",
-              height: "48px",
-            }}
-          >
-            {" "}
-            Confirm
-          </Button>
-        </div>
+      </div>
+      <div className="mainContent__footer">
+        <Button
+          onClick={handleSubmitForm}
+          color="inherit"
+          className="button"
+          sx={{
+            color: "#400e32",
+            backgroundColor: "#F2cd5C",
+            width: "200px",
+            height: "48px",
+          }}
+        >
+          {" "}
+          Confirm
+        </Button>
       </div>
     </div>
   );

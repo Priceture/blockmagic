@@ -727,16 +727,16 @@ function MintNFT({ pageCount, setPageCount }) {
     setMintStatus("minting");
     try {
       const ethersProvider = new BrowserProvider(walletProvider);
-    const signer = await ethersProvider.getSigner();
-    const NFTContract = new Contract(MintNFTContractAddress, Abi, signer);
+      const signer = await ethersProvider.getSigner();
+      const NFTContract = new Contract(MintNFTContractAddress, Abi, signer);
 
-    // have to update the arguments in safeMint to be address, JSON.stringify(metadata), pricetiers in array
-    const mintNFT = await NFTContract.safeMint(
-      address,
-      priceArr,
-      ipfsUrls,
-      priceFeedAddress
-    );
+      // have to update the arguments in safeMint to be address, JSON.stringify(metadata), pricetiers in array
+      const mintNFT = await NFTContract.safeMint(
+        address,
+        priceArr,
+        ipfsUrls,
+        priceFeedAddress
+      );
       const receipt = await mintNFT.wait();
       console.log("this is receipt: ", receipt);
 

@@ -15,7 +15,7 @@ const steps = [
   "Mint NFT",
 ];
 
-export default function ProgressBar({ pageCount }) {
+export default function ProgressBar({ pageCount, setPageCount }) {
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
 
@@ -43,9 +43,10 @@ export default function ProgressBar({ pageCount }) {
     // setSkipped(newSkipped);
   };
 
-  // const handleBack = () => {
-  //   setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  // };
+  const handleBack = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    setPageCount(pageCount - 1);
+  };
 
   // const handleSkip = () => {
   //   if (!isStepOptional(activeStep)) {

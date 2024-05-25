@@ -80,7 +80,7 @@ const theme = createTheme({
     },
     text: {
       primary: "#fff",
-      secondary: "#bbb",
+      secondary: "#aaa",
     },
   },
 });
