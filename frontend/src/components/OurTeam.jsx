@@ -23,7 +23,7 @@ export default function OurTeam() {
               component="img"
               height="140"
               image={profilepic1}
-              alt="green iguana"
+              alt="Profile pic"
             />
             <CardContent>
               <Typography
@@ -32,11 +32,10 @@ export default function OurTeam() {
                 component="div"
                 color="text.secondary"
               >
-                Sitthaveet.eth
+                sitthaveet.eth
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Lizards are a widespread group of squamate reptiles, with over
-                6,000 species, ranging across all continents except Antarctica
+                Deadcat developer who feeds the fish inside my head.
               </Typography>
             </CardContent>
           </CardActionArea>
@@ -47,7 +46,7 @@ export default function OurTeam() {
               component="img"
               height="140"
               image={profilepic2}
-              alt="green iguana"
+              alt="Profile pic"
             />
             <CardContent>
               <Typography
@@ -59,8 +58,7 @@ export default function OurTeam() {
                 Punthira Chin
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Lizards are a widespread group of squamate reptiles, with over
-                6,000 species, ranging across all continents except Antarctica
+                Wizard Deadcat who loves to make coding magic happen.
               </Typography>
             </CardContent>
           </CardActionArea>

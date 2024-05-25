@@ -110,7 +110,7 @@ function SetPrice({ pageCount, setPageCount }) {
         <div className="mainContent_setPrice-container">
           <div className="setPrice__subcontainer">
             <span className="setPrice__subcontainer-item">
-              Highest Price : Very Happy
+              Highest Price : Very Happy 😄
             </span>
             <span className="setPrice__subcontainer-item-sm">+</span>
             <input
@@ -132,7 +132,7 @@ function SetPrice({ pageCount, setPageCount }) {
           </div>
           <div className="setPrice__subcontainer">
             <span className="setPrice__subcontainer-item">
-              Higher Price : Happy
+              Higher Price : Happy 😀
             </span>
             <span className="setPrice__subcontainer-item-sm">+</span>
             <input
@@ -155,7 +155,7 @@ function SetPrice({ pageCount, setPageCount }) {
 
           <div className="setPrice__subcontainer">
             <span className="setPrice__subcontainer-item">
-              Current Price : Normal
+              Current Price : Normal 😶
             </span>
             <span className="setPrice__subcontainer-item-sm">+</span>
             <span className="setPrice__subcontainer-item">0</span>
@@ -171,7 +171,7 @@ function SetPrice({ pageCount, setPageCount }) {
 
           <div className="setPrice__subcontainer">
             <span className="setPrice__subcontainer-item">
-              Lower Price : Sad
+              Lower Price : Sad 🙁
             </span>
             <span className="setPrice__subcontainer-item-sm">+</span>
             <input
@@ -194,7 +194,7 @@ function SetPrice({ pageCount, setPageCount }) {
 
           <div className="setPrice__subcontainer">
             <span className="setPrice__subcontainer-item">
-              Lowest Price : Very Sad
+              Lowest Price : Very Sad 😩
             </span>
             <span className="setPrice__subcontainer-item-sm">-</span>
             <input
