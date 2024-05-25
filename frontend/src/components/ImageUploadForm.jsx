@@ -4,6 +4,11 @@ import { getStorage, ref, uploadBytes } from "firebase/storage";
 import { initializeApp } from "firebase/app";
 import { v4 as uuidv4 } from "uuid";
 import { AppContext } from "../context/AppContext";
+import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
+import LinearProgress from "@mui/material/LinearProgress";
+import axios from "axios";
+import Resizer from "react-image-file-resizer";
 
 function ImageUploadForm({ pageCount, setPageCount }) {
   // setup stage for image upload
@@ -11,6 +16,7 @@ function ImageUploadForm({ pageCount, setPageCount }) {
   const { metadataInContext, setMetadataInContext } = useContext(AppContext);
   const { priceArr, setPriceArr } = useContext(AppContext);
   const [generateImageStatus, setGenerateImageStatus] = useState(null);
+  const [progressGenerateImage, setProgressGenerateImage] = useState(0);
   const { ipfsUrls, setIpfsUrls } = useContext(AppContext);
 
   // API token for Imagine API
@@ -30,9 +36,25 @@ function ImageUploadForm({ pageCount, setPageCount }) {
     messagingSenderId: "754334414708",
     appId: "APP_ID",
   };
-
   const app = initializeApp(firebaseConfig);
   const storage = getStorage(app);
+
+  // resize image file function
+  const resizeFile = (file) =>
+    new Promise((resolve) => {
+      Resizer.imageFileResizer(
+        file,
+        900,
+        900,
+        "JPEG",
+        100,
+        0,
+        (uri) => {
+          resolve(uri);
+        },
+        "blob"
+      );
+    });
 
   // handle image upload
   const handleChange = (e) => {
@@ -49,11 +71,12 @@ function ImageUploadForm({ pageCount, setPageCount }) {
       // remove spaces from image name to prevent error in Midjourney API
       const imageNameWithOutSpace = image.name.replace(/\s/g, "");
       const imageName = imageNameWithOutSpace;
+      const resizedImage = await resizeFile(image);
 
       // specify the image reference on Firebase storage
       const imageRef = ref(storage, `images/${imageName}`);
       try {
-        await uploadBytes(imageRef, image);
+        await uploadBytes(imageRef, resizedImage);
         console.log(
           `Your image URL is : https://firebasestorage.googleapis.com/v0/b/priceture.appspot.com/o/images%2F${imageName}?alt=media`
         );
@@ -105,7 +128,7 @@ function ImageUploadForm({ pageCount, setPageCount }) {
 
           // check if the image has finished generating
           let counter = 0;
-          const maxAttempts = 20;
+          const maxAttempts = 30;
 
           const intervalId = setInterval(async function () {
             try {
@@ -122,36 +145,71 @@ function ImageUploadForm({ pageCount, setPageCount }) {
               );
 
               const responseData = await response.json();
+
               if (
                 responseData.data.status === "completed" ||
                 responseData.data.status === "failed"
               ) {
                 // img generation done, stop repeating
                 clearInterval(intervalId);
-                console.log("Result: ", responseData.data);
+                console.log(
+                  "Result of image #",
+                  i + 1,
+                  ": ",
+                  responseData.data
+                );
+                setProgressGenerateImage(progressGenerateImage + 1);
 
-                // setup metadata for each round of image geneartion
-                let metadata = {
-                  name: "Priceture NFT",
-                  description: "Your Price, Your Mood, Your NFT",
-                  image: responseData.data.upscaled_urls[0],
-                  attributes: [
-                    {
-                      trait_type: "Feeling",
-                      value: `${
-                        i === 0
-                          ? "Very Sad"
-                          : i === 1
-                          ? "Sad"
-                          : i === 2
-                          ? "Happy"
-                          : "Very Happy"
-                      }`,
-                    },
-                  ],
-                };
+                // upload the image to firebase storage
+                async function uploadGenImageToFirebase() {
+                  try {
+                    const genImageUrl = responseData.data.upscaled_urls[0];
+                    const response = await axios({
+                      url: genImageUrl,
+                      method: "GET",
+                      responseType: "blob",
+                    });
+                    const genImageBlob = response.data;
+                    const resizedGenImageBlob = await resizeFile(genImageBlob);
+                    const genImageName = uuidv4() + ".JPEG";
+                    const genImageRef = ref(storage, `images//${genImageName}`);
+                    await uploadBytes(genImageRef, resizedGenImageBlob);
+                    console.log(
+                      "success upload generated image on Firebase of #",
+                      i
+                    );
 
-                resolve(metadata); // Resolve the Promise with metadataArray
+                    // setup metadata for each round of image geneartion
+                    let metadata = {
+                      name: "Priceture NFT",
+                      description: "Your Price, Your Mood, Your NFT",
+                      image: `https://firebasestorage.googleapis.com/v0/b/priceture.appspot.com/o/images%2F${genImageName}?alt=media`,
+                      attributes: [
+                        {
+                          trait_type: "Feeling",
+                          value: `${
+                            i === 0
+                              ? "Very Sad"
+                              : i === 1
+                              ? "Sad"
+                              : i === 2
+                              ? "Happy"
+                              : "Very Happy"
+                          }`,
+                        },
+                      ],
+                    };
+
+                    resolve(metadata); // Resolve the Promise with metadataArray
+                  } catch (error) {
+                    console.error(
+                      "Error uploading gen image to Firebase: ",
+                      error
+                    );
+                  }
+                }
+
+                uploadGenImageToFirebase();
               } else {
                 console.log(
                   "Image is not finished generation. Status: ",
@@ -265,16 +323,6 @@ function ImageUploadForm({ pageCount, setPageCount }) {
               console.error("Error generating images:", error);
             }
           })();
-
-          // let allMetadata = [];
-          // for (let i = 0; i < prompt.length; i++) {
-          //   let metadata = await generateImage(i);
-          //   // let metadata = { name: `nft ${i}` };
-          //   console.log(
-          //     "the metadata for this image generation is: " + metadata
-          //   );
-          //   allMetadata.push(metadata);
-          // }
         });
       }
 
@@ -322,23 +370,29 @@ function ImageUploadForm({ pageCount, setPageCount }) {
             <button
               className={
                 generateImageStatus === "process"
-                  ? "bg-slate-400 rounded-md px-3 py-1 text-white disabled:opacity-50 disabled:cursor-not-allowed"
+                  ? "bg-slate-800 rounded-md px-3 py-1 text-white disabled:opacity-50 disabled:cursor-not-allowed"
                   : "actionBtn"
               }
               type="submit"
               disabled={generateImageStatus === "process"}
             >
-              {generateImageStatus === "process"
-                ? "Generating..."
-                : generateImageStatus === "done"
-                ? null
-                : "Upload Image"}
+              {generateImageStatus === "process" ? (
+                <Box sx={{ display: "flex" }}>
+                  <CircularProgress />
+                </Box>
+              ) : generateImageStatus === "done" ? null : (
+                "Upload Image"
+              )}
             </button>
           )}
         </form>
         {generateImageStatus === "process" ? (
           <div>
-            We are asking AI to generate images for you, please wait 3-5 mins
+            <p>
+              We are asking AI to generate images for you 🍲 please wait 3-5
+              mins
+            </p>
+            <p>Your image generation status ✅: {progressGenerateImage}/4</p>
           </div>
         ) : null}
       </div>

@@ -28,7 +28,7 @@ As real-world situations evolve, so do these NFTs. Powered by Chainlink Pricefee
 4. User selects their favorite asset (BTC or ETH or LINK)
 5. User setups conditions for triggers of dynamic NFT
 6. User mints dynamicNFT.
-7. The Chainlink automation will check every 24 hours that if the price has hit the trigger points (price tiers) or not, if it hits, the JSON metadata of NFT will change their mood.
+7. The Chainlink automation will check every 30 minutes that if the price has hit the trigger points (price tiers) or not, if it hits, the JSON metadata of NFT will change their mood.
 
 ## Project Structure
 
@@ -39,9 +39,9 @@ The project has 2 folders
 ## Smart Contracts
 
 The smart contract is written in Solidity on Remix. The contract is deployed on Polygon Amoy Testnet.
-The contract is using Chainlink's pricefeed to get the latest price on the selected assets (BTC/USD, ETH/USD, LINK/USD) and Chainlink's automation time-based for triggering the function inside the smart contract every 24 hours.
+The contract is using Chainlink's pricefeed to get the latest price on the selected assets (BTC/USD, ETH/USD, LINK/USD) and Chainlink's automation time-based for triggering the function inside the smart contract every 30 minutes.
 
 ## Deployed Contract
 
 - Polygon Amoy Testnet: [0xF5d4F62Ea2Eb520d6b854Eb910d6605Fc59631E8](https://amoy.polygonscan.com/address/0xf5d4f62ea2eb520d6b854eb910d6605fc59631e8)
-- Chainlink Automation: [0x8D391A5b33c9EB17c157B3aeF4454305a66b1682](https://amoy.polygonscan.com/address/0x8d391a5b33c9eb17c157b3aef4454305a66b1682)
+- Chainlink Automation: [0x50cc4ce7b707c3fbc0edbf459bcdb71fa990554c](https://amoy.polygonscan.com/address/0x50cc4ce7b707c3fbc0edbf459bcdb71fa990554c)
