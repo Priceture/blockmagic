@@ -165,7 +165,7 @@ function SetPrice({ pageCount, setPageCount }) {
             <span className="setPrice__subcontainer-item">
               Lower Price : Sad 🙁
             </span>
-            <span className="setPrice__subcontainer-item-sm">+</span>
+            <span className="setPrice__subcontainer-item-sm">-</span>
             <input
               className="setPrice__subcontainer-item"
               type="text"
