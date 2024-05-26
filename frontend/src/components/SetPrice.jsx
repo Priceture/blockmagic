@@ -15,7 +15,7 @@ function SetPrice({ pageCount, setPageCount }) {
 
   // Get price from coinGecko
   const getPrice = async () => {
-    const apiKey = process.env.NEXT_PUBLIC_API_KEY;
+    const apiKey = "CG-jg1Lr9hXN99m9hkFgQosKGnT";
     const url = `https://api.coingecko.com/api/v3/simple/price?ids=${selectedAsset}&vs_currencies=usd&x_cg_demo_api_key=${apiKey}`;
     try {
       const response = await axios.get(url);
