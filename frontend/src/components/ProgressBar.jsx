@@ -9,9 +9,9 @@ import Typography from "@mui/material/Typography";
 // Todo 1. เอา next กับ back ออก แต่เปลี่ยน trigger ในการเพิ่ม count แทน เป็น pageCount (ให้ trigger โดยการเปลี่ยน pagecount >> มันเป็น child ของ register ที่จัดการ pageCount เพราะฉะนั้นน่าจะเกิดการ reload เมื่อมีการ update ค่า pagecount อยู่แล้ว?)
 const steps = [
   "Connect Wallet",
+  "Upload Image ",
   "Select Asset",
   "Set Condition",
-  "Upload Image ",
   "Mint NFT",
 ];
 

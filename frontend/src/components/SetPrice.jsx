@@ -11,19 +11,11 @@ function SetPrice({ pageCount, setPageCount }) {
   const [priceLL, setPriceLL] = useState(0);
   // const [priceArr, setPriceArr] = useState([0, 0, 0, 0, 0]);
   const [bitcoinPrice, setBitcoinPrice] = useState(0);
-  const { priceArr, setPriceArr, selectedAsset, setSelectedAsset } =
-    useContext(AppContext);
+  const { setPriceArr, selectedAsset } = useContext(AppContext);
 
   // Get price from coinGecko
   const getPrice = async () => {
-    const apiKey = "CG-jg1Lr9hXN99m9hkFgQosKGnT";
-    //Bitcoin price:
-    // const url = `https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd&x_cg_demo_api_key=${apiKey}`;
-    //Eth price:
-    // const url = `https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd&x_cg_demo_api_key=${apiKey}`;
-    //Chainlink price
-    // ("https://api.coingecko.com/api/v3/simple/price?ids=chainlink&vs_currencies=usd");
-    // configure url by selected asset
+    const apiKey = process.env.NEXT_PUBLIC_API_KEY;
     const url = `https://api.coingecko.com/api/v3/simple/price?ids=${selectedAsset}&vs_currencies=usd&x_cg_demo_api_key=${apiKey}`;
     try {
       const response = await axios.get(url);
