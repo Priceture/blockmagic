@@ -4,35 +4,29 @@ import { AppContext } from "../context/AppContext";
 import { Button } from "@mui/material";
 
 function SetPrice({ pageCount, setPageCount }) {
-  //Set state for 4 price tiers
   const [priceHH, setPriceHH] = useState(0);
   const [priceH, setPriceH] = useState(0);
   const [priceL, setPriceL] = useState(0);
   const [priceLL, setPriceLL] = useState(0);
-  // const [priceArr, setPriceArr] = useState([0, 0, 0, 0, 0]);
   const [bitcoinPrice, setBitcoinPrice] = useState(0);
   const { setPriceArr, selectedAsset } = useContext(AppContext);
 
-  // Get price from coinGecko
   const getPrice = async () => {
     const apiKey = "CG-jg1Lr9hXN99m9hkFgQosKGnT";
     const url = `https://api.coingecko.com/api/v3/simple/price?ids=${selectedAsset}&vs_currencies=usd&x_cg_demo_api_key=${apiKey}`;
     try {
       const response = await axios.get(url);
-      // const btcPriceInUSD = await response.data.bitcoin.usd;
       const btcPriceInUSD = await response.data[selectedAsset].usd;
       console.log("bitcoin price is:", btcPriceInUSD);
       setBitcoinPrice(btcPriceInUSD);
-      // return btcPriceInUSD;
     } catch (error) {
       console.error("Error fetching BTC price:", error);
     }
   };
-  // Fetch Bitcoin Price when rendering first time
+
   useEffect(() => {
     getPrice();
   }, []);
-  //Handle input percentage%
   const handleChangePriceHH = (event) => {
     setPriceHH(event.target.value);
   };

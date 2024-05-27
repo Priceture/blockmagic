@@ -1,23 +1,11 @@
 import * as React from "react";
 import { useContext } from "react";
-import { HashRouter as Router, Route, Link } from "react-router-dom";
-
 import pricturelogo from "../assets/pricturelogo.svg";
-// import pricture-logo from "../assets/pricture-logo.svg"
 
-import {
-  Box,
-  Container,
-  Toolbar,
-  Typography,
-  Button,
-  IconButton,
-  MenuIcon,
-} from "@mui/material";
+import { Box, Toolbar, Button } from "@mui/material";
 import MuiAppBar from "@mui/material/AppBar";
 import { AppContext } from "../context/AppContext.jsx";
 import { useNavigate } from "react-router-dom";
-import { LogDescription } from "ethers";
 
 export default function AppBar() {
   const { pageCount, setPageCount } = useContext(AppContext);
@@ -32,7 +20,6 @@ export default function AppBar() {
     } else setPageCount(0);
   };
 
-  // const theme = useTheme();
   return (
     <Box sx={{ flexGrow: 1 }}>
       <MuiAppBar position="static" sx={{ backgroundColor: "#400e32" }}>
@@ -61,20 +48,6 @@ export default function AppBar() {
           </Button>
 
           <Box display="flex" sx={{ gap: "24px" }}>
-            {/* <Box display="flex"> */}
-            {/* <Button color="inherit" className="button" sx={{ flexGrow: 1 }}>
-                <Link to="#whatispriceture">WHAT IS PRICTURE</Link>
-              </Button>
-              <Button color="inherit" className="button" sx={{ flexGrow: 1 }}>
-                <Link to="#howitworks">HOW IT WORKS</Link>
-              </Button>
-              <Button color="inherit" className="button" sx={{ flexGrow: 1 }}>
-                <Link to="#ourteam">OUR TEAM</Link>
-              </Button>
-            </Box>
-            <Route path="/" exact component={whatispricture} />
-              <Route path="/" component={howitworks} />
-              <Route path="/" component={ourteam} /> */}
             <Button
               onClick={handleGoToRegister}
               color="inherit"

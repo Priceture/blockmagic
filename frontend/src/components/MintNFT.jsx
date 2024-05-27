@@ -1,9 +1,9 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   useWeb3ModalAccount,
   useWeb3ModalProvider,
 } from "@web3modal/ethers/react";
-import { ethers, BrowserProvider, Contract, formatUnits } from "ethers";
+import { BrowserProvider, Contract } from "ethers";
 import { AppContext } from "../context/AppContext";
 import { Button } from "@mui/material";
 
@@ -18,16 +18,11 @@ function MintNFT({ pageCount, setPageCount }) {
     setSelectedAsset,
   } = useContext(AppContext);
   const { ipfsUrls, setIpfsUrls } = useContext(AppContext);
-
-  const [walletDetails, setWalletDetails] = useState(null);
-  const [walletError, setWalletError] = useState(false);
-  // อัพเดทค่าเมื่อ connect wallet แล้ว
-  const { address, chainId, isConnected } = useWeb3ModalAccount();
+  const { address } = useWeb3ModalAccount();
   const { walletProvider } = useWeb3ModalProvider();
 
   const [mintStatus, setMintStatus] = useState("start");
 
-  // to be updated ABI
   const Abi = [
     {
       inputs: [],
@@ -669,7 +664,6 @@ function MintNFT({ pageCount, setPageCount }) {
     },
   ];
 
-  // to be updated mint NFT Contract address
   const MintNFTContractAddress = "0xF5d4F62Ea2Eb520d6b854Eb910d6605Fc59631E8";
 
   let priceFeedAddress = "";
@@ -683,46 +677,6 @@ function MintNFT({ pageCount, setPageCount }) {
     priceFeedAddress = "0xc2e2848e28B9fE430Ab44F55a8437a33802a219C";
   }
 
-  const metadata = {
-    file: [
-      {
-        name: "Priceture NFT",
-        description: "Your Price, Your Mood, Your NFT",
-        image:
-          "https://cl.imagineapi.dev/assets/133f4b9c-bd1e-484d-8f0e-fa1db84d07a5/133f4b9c-bd1e-484d-8f0e-fa1db84d07a5.png",
-        attributes: [{ trait_type: "Feeling", value: "Very Sad" }],
-      },
-      {
-        name: "Priceture NFT",
-        description: "Your Price, Your Mood, Your NFT",
-        image:
-          "https://cl.imagineapi.dev/assets/15d7ff3e-42b3-468f-b451-850959bb28ed/15d7ff3e-42b3-468f-b451-850959bb28ed.png",
-        attributes: [{ trait_type: "Feeling", value: "Sad" }],
-      },
-      {
-        name: "Priceture NFT",
-        description: "Your Price, Your Mood, Your NFT",
-        image:
-          "https://firebasestorage.googleapis.com/v0/b/priceture.appspot.com/o/images%2FIMG_1057.JPG?alt=media",
-        attributes: [{ trait_type: "Feeling", value: "Normal" }],
-      },
-      {
-        name: "Priceture NFT",
-        description: "Your Price, Your Mood, Your NFT",
-        image:
-          "https://cl.imagineapi.dev/assets/3655b102-37ba-4cff-8475-d035b7603ef2/3655b102-37ba-4cff-8475-d035b7603ef2.png",
-        attributes: [{ trait_type: "Feeling", value: "Happy" }],
-      },
-      {
-        name: "Priceture NFT",
-        description: "Your Price, Your Mood, Your NFT",
-        image:
-          "https://cl.imagineapi.dev/assets/7e3cfd26-ed22-48fd-a7e5-bb0adac66107/7e3cfd26-ed22-48fd-a7e5-bb0adac66107.png",
-        attributes: [{ trait_type: "Feeling", value: "Very Happy" }],
-      },
-    ],
-  };
-  // setMetadataInContext(metadata);
   const handleMintNFT = async () => {
     setMintStatus("minting");
     try {
@@ -730,7 +684,6 @@ function MintNFT({ pageCount, setPageCount }) {
       const signer = await ethersProvider.getSigner();
       const NFTContract = new Contract(MintNFTContractAddress, Abi, signer);
 
-      // have to update the arguments in safeMint to be address, JSON.stringify(metadata), pricetiers in array
       const mintNFT = await NFTContract.safeMint(
         address,
         priceArr,
@@ -749,8 +702,6 @@ function MintNFT({ pageCount, setPageCount }) {
       } else {
         console.log("Can't get token ID from the receipt");
       }
-
-      // move page to success page
     } catch (error) {
       console.error("Error while minting NFT:", error);
       setMintStatus("start");

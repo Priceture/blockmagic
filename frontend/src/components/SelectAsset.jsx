@@ -6,14 +6,12 @@ import chainlinklogo from "../assets/chainlink.svg";
 
 function SelectAsset({ pageCount, setPageCount }) {
   const { selectedAsset, setSelectedAsset } = useContext(AppContext);
-  //Supported Asset List
   const assetList = [
     { name: "bitcoin", symbol: "BTC", logo: bitcoinlogo },
     { name: "ethereum", symbol: "ETH", logo: ethereumlogo },
     { name: "chainlink", symbol: "LINK", logo: chainlinklogo },
   ];
   const handleSelectAsset = (event) => {
-    // ดึงค่า asset ที่เค้าเลือกมาจาก id
     console.log(event.target.id);
     setSelectedAsset(event.target.id);
     setPageCount(pageCount + 1);

@@ -1,5 +1,4 @@
-// import 'dotenv/config.js'
-import React, { useState, useContext } from "react"; // make sure to configure this
+import React, { useState, useContext } from "react";
 import { getStorage, ref, uploadBytes } from "firebase/storage";
 import { initializeApp } from "firebase/app";
 import { v4 as uuidv4 } from "uuid";
@@ -11,7 +10,6 @@ import axios from "axios";
 import Resizer from "react-image-file-resizer";
 
 function ImageUploadForm({ pageCount, setPageCount }) {
-  // setup stage for image upload
   const [image, setImage] = useState(null);
   const { metadataInContext, setMetadataInContext } = useContext(AppContext);
   const { priceArr, setPriceArr } = useContext(AppContext);

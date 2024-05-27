@@ -1,15 +1,10 @@
 import "./App.css";
 import Router from "./routes/Router";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-
-/// Try with Wallet Connect
 import { createWeb3Modal, defaultConfig } from "@web3modal/ethers/react";
 import AppContextProvider from "./context/AppContext";
 
-// 1. Get projectId
 const projectId = "9db5fedcd0785dec5947890dfd3bd53f";
-
-// 2. Set chain
 const sepolia = {
   chainId: 11155111,
   name: "Sepolia Testnet",
@@ -27,7 +22,6 @@ const amoy = {
   rpcUrl: "https://rpc-amoy.polygon.technology/",
 };
 
-// 3. Create a metadata object
 const metadata = {
   name: "My Website",
   description: "My Website description",
@@ -68,14 +62,10 @@ const theme = createTheme({
     primary: {
       main: "#f2cd5c",
       contrastText: "#fff",
-      // light: will be calculated from palette.primary.main,
-      // dark: will be calculated from palette.primary.main,
-      // contrastText: will be calculated to contrast with palette.primary.main
     },
     secondary: {
       main: "#400e32",
       light: "#a61f69",
-      // dark: will be calculated from palette.secondary.main,
       contrastText: "#fff",
     },
     text: {
