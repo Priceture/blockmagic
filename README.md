@@ -1,3 +1,4 @@
+
 <p align="center" width="100%">
     <img width="100%" src="https://firebasestorage.googleapis.com/v0/b/priceture.appspot.com/o/PricetureCover.png?alt=media"> 
 </p>
@@ -5,9 +6,9 @@
 
 # Priceture
 Your price, your mood, your NFT.
-Transform your art into a mood-reflective masterpiece that shifts with the emotional currents you care about - prices, sports teams, and more.
+DynamicNFTs Platform which can transform your art, selfie, or pet photos into a mood-reflective NFT that changes based on the things you care about eg. prices, sports teams, and more.
 
-> Try our product at [here](https://priceture.com)
+> Try our product: [here](https://pricetureforhacknheights.vercel.app/)
 
 ## Introduction
 
@@ -36,12 +37,22 @@ The project has 2 folders
 1. `contracts`: contains the smart contract
 2. `frontend` : contains the frontend app including API to IPFS and Midjourney
 
+## AI
+
+The generated images are using Midjourney V6
+
 ## Smart Contracts
 
 The smart contract is written in Solidity on Remix. The contract is deployed on Polygon Amoy Testnet.
-**The contract is using Chainlink's pricefeed to get the latest price on the selected assets (BTC/USD, ETH/USD, LINK/USD) for updating state of NFT's metadata and Chainlink's automation time-based for triggering the function inside the smart contract every 30 minutes.**
+The contract is using Chainlink's pricefeed to get the latest price on the selected assets (BTC/USD, ETH/USD, LINK/USD) and Chainlink's automation time-based for triggering the function inside the smart contract every 30 minutes.
 
 ## Deployed Contract
 
 - Polygon Amoy Testnet: [0xF5d4F62Ea2Eb520d6b854Eb910d6605Fc59631E8](https://amoy.polygonscan.com/address/0xf5d4f62ea2eb520d6b854eb910d6605fc59631e8)
 - Chainlink Automation: [0x50cc4ce7b707c3fbc0edbf459bcdb71fa990554c](https://amoy.polygonscan.com/address/0x50cc4ce7b707c3fbc0edbf459bcdb71fa990554c)
+
+
+## Project Pitch 
+
+- Pitch Video - [Youtube](https://youtu.be/1QdGFrD9PKk)
+- Pitch Deck - [PDF](https://google.com)
