@@ -39,7 +39,7 @@ The project has 2 folders
 ## Smart Contracts
 
 The smart contract is written in Solidity on Remix. The contract is deployed on Polygon Amoy Testnet.
-The contract is using Chainlink's pricefeed to get the latest price on the selected assets (BTC/USD, ETH/USD, LINK/USD) and Chainlink's automation time-based for triggering the function inside the smart contract every 30 minutes.
+**The contract is using Chainlink's pricefeed to get the latest price on the selected assets (BTC/USD, ETH/USD, LINK/USD) for updating state of NFT's metadata and Chainlink's automation time-based for triggering the function inside the smart contract every 30 minutes.**
 
 ## Deployed Contract
 
