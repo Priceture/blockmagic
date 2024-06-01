@@ -8,7 +8,7 @@
 Your price, your mood, your NFT.
 DynamicNFTs Platform which can transform your art, selfie, or pet photos into a mood-reflective NFT that changes based on the things you care about eg. prices, sports teams, and more.
 
-> Try our product: [here](https://pricetureforhacknheights.vercel.app/)
+> Try our product: [here](https://blockmagic-priceture.vercel.app/)
 
 ## Introduction
 
